@@ -1,0 +1,17 @@
+/* Гар утасны хэмжээ: 600px-с бага */
+@media (max-width: 600px) {
+    html, body {
+      font-size: 12px;
+    }
+    nav, footer{
+        display: none; /* Desktop зураг нууна */
+    }
+    .paw1{
+        display: none;
+    }
+    #dynamicImage{
+        width: 40rem;
+    }
+  }
+  
+

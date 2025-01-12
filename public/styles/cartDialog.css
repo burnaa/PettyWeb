@@ -1,0 +1,177 @@
+
+/* ******Нийт**********/
+:root {
+    --color-petty: #f4202e;
+    --color-grey:#aaaaaa;
+    --color-black:#333333;
+    --color-white: #fbf8f1;
+    --color-dark: #dcd7cc;
+    --shadow-1: 0rem 0.25rem 0.25rem var(--color-grey);
+    --shadow-2: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --product-border: 2px solid var(--color-petty);
+    --input-border:1px solid var(--color-black);
+    --default-border-radius: 1rem;
+    --border-radius: 0.5rem;
+    --color-body: var(--color-white);
+    --font: 'Roboto', sans-serif;
+  }
+  /* Dark */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-body: var(--color-dark);
+    }
+  }
+/* Бүдэглэх давхаргын стиль */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Хагас тунгалаг хар өнгө */
+    z-index: 999; /* Диалогын ард харагдана */
+    display: none; /* Эхэндээ харагдахгүй */
+}
+
+.cartDialog {
+    font-family: var(--font);
+    width: 400px;
+    background-color: var(--color-body);
+    color: black;
+    position: fixed;
+    inset: 0 0 0 auto;
+    display: grid; /* Grid layout ашиглаж байна */
+    grid-template-rows: 70px 1fr auto; /* Толгой, агуулга, доод хэсэг */
+    grid-template-areas: 
+        "header"
+        "content"
+        "footer"; /* Grid талбаруудыг нэрлэж байна */
+    z-index: 1000;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 2.5rem;
+}
+
+.listcart {
+    grid-area: content; /* Content талбар */
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.cartDialog .listbtn {
+    grid-area: footer; /* Footer талбарт байрлана */
+    display: grid;
+    gap: 1rem;
+    padding: 10px;
+}
+
+
+.cartDialog .listbtn .checkout {
+    background: linear-gradient(90deg, #f66c49, #f8b785);
+    padding:0.5rem;
+    text-align: center;
+    color: black;
+    border-radius: var(--border-radius);
+} 
+
+
+  
+  .cartDialog .listbtn .checkout:hover {
+    background: linear-gradient(90deg, #f8b785, #f66c49); /* Хулганы даралттай үед эсрэг чиглэлд */
+  }
+
+
+
+.cart-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: var(--color-body);
+    color:black;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+svg {
+    padding: 2px;
+    transition: background-color 0.06s;
+}
+
+
+
+.loginDialog {
+    position: fixed;
+    width: 30%;
+    padding: 2.5rem;
+    border-radius: var(--default-border-radius);
+    box-sizing: border-box;
+    background-color: var(--color-body);
+    color: black;
+    font-family: var(--font);
+    top: 34%; /* Дэлгэцийн өндрийн 50% дээр байрлана */
+    left: 50%; /* Дэлгэцийн өргөний 50% дээр байрлана */
+    transform: translate(-50%, -50%); /* Төв рүү шилжүүлнэ */
+    display: none; /* Эхэндээ харагдахгүй */
+    z-index: 1000;
+    height: auto;
+    overflow-y: auto;
+}
+
+.login-header {
+    display: flex;
+     /* Босоо төвлөрүүлэлт */
+    justify-content: flex-start; /* Зураг болон текстийн хоорондох зайг тэгшитгэнэ */
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.modal-body input,
+.modal-body textarea,
+.modal-body select,
+.modal-body button{
+    font-family: var(--font);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.modal-body a{
+    font-size: 0.8rem;
+    padding: 0.5rem;
+}
+.modal-body p {
+    display: flex; /* Flexbox-г эцэг элементийг дээр нэмнэ */
+    justify-content: center; /* Элементийг голд төвлөрүүлнэ */
+}
+
+.modal-body button{
+    background: linear-gradient(90deg, #f66c49, #f8b785);
+}
+
+.modal-body button a{
+    color: black;
+    font-size: 1.2rem;
+}
+
+.login-footer {
+    display:inline-flex;
+     /* Босоо төвлөрүүлэлт */
+    justify-content: flex-start; /* Зураг болон текстийн хоорондох зайг тэгшитгэнэ */
+    align-items: center;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.login-footer a{
+    font-size: 1rem;
+}

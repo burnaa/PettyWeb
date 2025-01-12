@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bla bla">
+    <link rel="stylesheet" href="../styles/prod.css">
+    <link rel="stylesheet" href="../styles/cartDialog.css">
+    <script src="../components/my-footer.js" type="module"></script>
+    <script src="../components/my-header.js" type="module"></script>
+    <script src="../js/adminniih/zb.js" type="module"></script>
+    <title>Admin</title>
+
+    <style>
+        /* Flexbox контейнер */
+        .checkbox-container {
+            display: flex;
+            gap: 40px;
+            /* Хоёр бүлгийн хоорондох зай */
+            align-items: flex-start;
+            /* Бүлгүүдийг дээд талаас зэрэгцүүлэх */
+        }
+
+        /* Checkbox бүлэг */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Нэг эгнээнд байрлуулах */
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            /* Checkbox болон текстийг зэрэгцүүлэх */
+            gap: 10px;
+            /* Checkbox ба текстийн хоорондох зай */
+        }
+
+        /* Label стилиуд */
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Сонгосон утгууд харуулах хэсэг */
+        .selected-values {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <my-header></my-header>
+
+    <main class="types">
+        <a href="products.html" class="paw1" aria-label="Буцах">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-paw-print">
+                <circle cx="11" cy="4" r="2" />
+                <circle cx="18" cy="8" r="2" />
+                <circle cx="20" cy="16" r="2" />
+                <path
+                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+            </svg>
+        </a>
+        <hr>
+        <form class="look">
+            <aside class="ImageSongo">
+                <input type="file" id="imageUpload" accept="image/*">
+                <div class="small-images" id="smallImageContainer"></div>
+                <div class="large-image" id="largeImageContainer">
+                    <p>Энд дарж зураг оруулна уу</p>
+                    <img src="#" alt="Том зураг" id="largeImage" style="display:none;">
+                </div>
+            </aside>
+            <aside>
+                <label for="name">Нэр:</label>
+                <input type="text" id="name" name="name"><br><br>
+
+                <label for="code">Код:</label>
+                <input type="text" id="code" name="code"><br><br>
+
+                <label for="type">Төрөл:</label>
+                <select id="type" name="type">
+                    <option value="Хоол хүнс">Хоол хүнс</option>
+                    <option value="Гоёл чимэглэл">Гоёл чимэглэл</option>
+                    <option value="Ариун цэвэр">Ариун цэвэр</option>
+                    <option value="Тоглоом">Тоглоом</option>
+                    <option value="Ор">Орнууд</option>
+                    <option value="Тээвэрлэлт">Тээвэрлэлт</option>
+                </select><br><br>
+
+                <div class="checkbox-container">
+                    <!-- Хэмжээ бүлэг -->
+                    <div class="checkbox-group">
+                        <label>Хэмжээ сонгох:</label>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="10kg" id="size-10kg">
+                            <label for="size-10kg">10кг</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="5kg" id="size-5kg">
+                            <label for="size-5kg">5кг</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="1kg" id="size-1kg">
+                            <label for="size-1kg">1кг</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="0.5kg" id="size-0.5kg">
+                            <label for="size-0.5kg">0.5кг</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="0.3kg" id="size-0.3kg">
+                            <label for="size-0.3kg">0.3кг</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="XS" id="size-xs">
+                            <label for="size-xs">XS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="S" id="size-s">
+                            <label for="size-s">S</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="M" id="size-m">
+                            <label for="size-m">M</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="L" id="size-l">
+                            <label for="size-l">L</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="size" value="XL" id="size-xl">
+                            <label for="size-xl">XL</label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label>Өнгө сонгох:</label>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="red" id="color-red">
+                            <label for="color-red">Улаан</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="orange" id="color-orange">
+                            <label for="color-orange">Улбар шар</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="yellow" id="color-yellow">
+                            <label for="color-yellow">Шар</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="green" id="color-green">
+                            <label for="color-green">Ногоон</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="blue" id="color-blue">
+                            <label for="color-blue">Цэнхэр</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="navy" id="color-navy">
+                            <label for="color-navy">Хөх</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="purple" id="color-purple">
+                            <label for="color-purple">Хөх ягаан</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="pink" id="color-pink">
+                            <label for="color-pink">Ягаан</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="white" id="color-white">
+                            <label for="color-white">Цагаан</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="gray" id="color-gray">
+                            <label for="color-gray">Саарал</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="color" value="black" id="color-black">
+                            <label for="color-black">Хар</label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <label for="origin">Гарал:</label>
+                <select id="origin" name="origin">
+                    <option value="import">Импортлолт</option>
+                    <option value="export">Экспортлолт</option>
+                </select><br><br>
+
+                <label for="start_date">Эхлэх огноо:</label>
+                <input type="date" id="start_date" name="start_date">
+                <label for="end_date">Дуусах огноо:</label>
+                <input type="date" id="end_date" name="end_date"><br><br>
+
+                <label for="confirm">Баталгаажуулалт:</label>
+                <input type="checkbox" id="confirm" name="confirm"><br><br>
+
+                <label for="number">Нөөц:</label>
+                <input type="number" id="piece" name="piece" placeholder="хэдэн ширхэг"><br><br>
+
+                <label for="price">Үнэ:</label>
+                <input type="number" id="price" name="price" placeholder="төгрөгөөр оруулах"><br><br>
+
+                <button id="pay-button">Нэмэх</button>
+            </aside>
+        </form>
+    </main>
+
+    <my-footer></my-footer>
+
+</body>
+</html>

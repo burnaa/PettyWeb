@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bla bla">
+    <link rel="stylesheet" href="../styles/prod.css">
+    <link rel="stylesheet" href="../styles/dialog.css">
+    <link rel="stylesheet" href="../styles/cartDialog.css">
+    <script src="../components/my-header.js" type="module"> </script>
+    <script src="../components/my-footer.js" type="module"></script>
+    <title>user</title>
+</head>
+
+<body>
+    <my-header></my-header>
+
+    <main class="zai">
+        <aside id="bairshil">
+            <img src="../images/user.png" alt="Хэрэглэгчийн профайл">
+            <pre>Хэрэглэчийн нэр: Б.Уранцэцэг
+Утасны дугаар: 90908078</pre>
+            <a href="#" aria-label="Админ бүтээгдэхүүн нэмэх">
+                <button id="showModal">
+                    Үрчилгээний зар оруулах
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-paw-print">
+                        <circle cx="11" cy="4" r="2" />
+                        <circle cx="18" cy="8" r="2" />
+                        <circle cx="20" cy="16" r="2" />
+                        <path
+                            d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+                    </svg>
+                </button>
+            </a>
+        </aside>
+        <hr>
+        <aside id="myModal">
+            <aside id="modalContent">
+                <div class="modal-header">Шинэ зар үүсгэх
+                    <img src="../images/logo.png" alt="logo" style="width: 2.5rem; height: 2.5rem; margin-left: 20rem">
+                </div>
+
+                <form class="modal-body">
+                    <input type="text" id="name" placeholder="Нэр" required>
+                    <input type="text" id="industry" placeholder="Үйлдвэр" required>
+                    <input type="number" id="age" placeholder="Нас" min=0 max=20 required>
+                    <select id="sex" required>
+                        <option value="" disabled selected>Хүйс сонгох</option>
+                        <option value="эр">Эр</option>
+                        <option value="эм">Эм</option>
+                    </select>
+                    <select id="type" name="type" required>
+                        <option value="" disabled selected>Төрлийг сонгох</option>
+                        <option value="нохой">Нохой</option>
+                        <option value="муур">Муур</option>
+                        <option value="туулай">Туулай</option>
+                        <option value="загас">Загас</option>
+                        <option value="шувуу">Шувуу</option>
+                        <option value="бусад">Бусад</option>
+                    </select>
+                    <textarea id="text" placeholder="Зарын дэлгэрэнгүй текст"></textarea>
+                    <input type="tel" id="contact" placeholder="Холбоо барих утас" required>
+                    <input type="file" id="image" accept="image/*" required>
+                    <input type="text" id="altText" placeholder="Зурагны тайлбар">
+                </form>
+                <div class="modal-footer">
+                    <button id="closeModal">Цуцлах</button>
+                    <button id="saveModal">Нийтлэх</button>
+                </div>
+            </aside>
+        </aside>
+
+        <aside id="zarContainer">
+
+            <article class="zar">
+                <aside id="egnee">
+                    <img src="../images/nohoi.jpg" alt="${Adopt1}" class="product-image">
+                    <button>❌</button>
+                </aside>
+                <div class="zar-info">
+                    <h4>Лили</h4>
+                    <p>Polish Hound үйлдвэрийн 1 настай эр нохой. 1 жил тэжээсэн эрүүл нохой. </p>
+                    <a href="tel">Холбогдох утас: 89259910</a>
+                </div>
+            </article>
+        </aside>
+    </main>
+
+
+    <my-footer></my-footer>
+
+    <script>
+        const modal = document.getElementById("myModal");
+        const showModalButton = document.getElementById("showModal");
+        const closeModalButton = document.getElementById("closeModal");
+        const saveModalButton = document.getElementById("saveModal");
+        const zarContainer = document.getElementById("zarContainer");
+        const imageInput = document.getElementById("image");
+
+        // Зар хадгалах функц
+        saveModalButton.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const item = {
+                name: document.getElementById("name").value,
+                factory: document.getElementById("industry").value,
+                age: document.getElementById("age").value,
+                sex: document.getElementById("sex").value,
+                type: document.getElementById("type").value,
+                details: document.getElementById("text").value,
+                phone: document.getElementById("contact").value,
+                image: document.getElementById("image").value,
+                text: document.getElementById("altText").value,
+            };
+
+            // Хоосон талбар байгаа эсэхийг шалгах
+            // if (!item.name || !item.factory || !item.age || !item.sex || !item.type || !item.phone || !item.image) {
+            //     alert("Заавал оруулах талбаруудыг бөглөнө үү!");
+            //     return;
+            // }
+
+            // console.log(item);
+
+            try {
+                const response = await fetch('/adoptions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(item),
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    const message = error.message || "Тодорхойгүй алдаа гарлаа.";
+                    alert(`Алдаа: ${message}`);
+                    return;  // Алдаа гарсан бол үргэлжлүүлэхгүй
+                }
+
+                const result = await response.json();
+                alert('Үрчилгээний мэдээлэл амжилттай нэмэгдлээ!');
+                console.log('Adoption added successfully:', result);
+            } catch (err) {
+                alert('Сервертэй холбогдох үед алдаа гарлаа. Та сүлжээгээ шалгана уу.');
+                console.error('Error submitting adoption:', err);
+            }
+
+
+            // Зургийг уншиж base64 форматтай болгох
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const imageSrc = event.target.result; // Зургийн өгөгдлийг хадгалах
+                const article = `
+            <article class="zar">
+                <aside id="egnee">
+                    <img src="${imageSrc}" alt="${item.altText}" class="product-image">
+                    <button>❌</button>
+                </aside>
+                <div class="zar-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.industry} үйлдвэрийн ${item.age} настай ${item.sex} ${item.type}. ${item.text}</p>
+                    <a href="tel:${item.contact}">Холбогдох утас: ${item.contact}</a>
+                </div>
+            </article>
+        `;
+                zarContainer.insertAdjacentHTML("beforeend", article);
+
+                // Modal-ыг хааж талбаруудыг цэвэрлэх
+                modal.style.display = "none";
+                document.getElementById("name").value = "";
+                document.getElementById("industry").value = "";
+                document.getElementById("age").value = "";
+                document.getElementById("sex").value = "";
+                document.getElementById("type").value = "";
+                document.getElementById("text").value = "";
+                document.getElementById("contact").value = "";
+                document.getElementById("image").value = "";
+                document.getElementById("altText").value = "";
+            };
+            reader.readAsDataURL(imageInput.files[0]); // Файлыг base64 болгоно
+        });
+
+        // Modal-г нээх
+        showModalButton.addEventListener("click", function () {
+            modal.style.display = "block";
+        });
+
+        // Modal-г хаах
+        closeModalButton.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Modal-ыг гадна дарж хаах
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        // Зар устгах үйлдэл
+        zarContainer.addEventListener("click", function (event) {
+            if (event.target.tagName === "BUTTON" && event.target.textContent === "❌") {
+                const article = event.target.closest("article"); // Хамгийн ойрын article элементийг олох
+                if (article) {
+                    article.remove(); // Элемент устгах
+                }
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/cartDialog.css">
+    <link rel="stylesheet" href="../styles/media.css">
+    <link rel="stylesheet" href="../styles/prod.css">
+    <script src="/public/components/my-footer.js" type="module"></script>
+    <script src="/public/components/my-header.js" type="module"></script>
+    <script>
+        
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            const itemsPerPage = 4; // paged heden item baih
+            let currentPage = 1;
+            let totalArticles = 0;
+            let simulatedData = []; // niit itemuud
+        
+            async function getData() {
+                const url = "http://localhost:3000/information";
+                try {
+                    const response = await fetch(url, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+        
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.statusText}`);
+                    }
+        
+                    const json = await response.json();
+                    const articles = json.record.articles;
+        
+                    for (let i = 0; i < 10; i++) {
+                        simulatedData.push(...articles);
+                    }
+        
+                    totalArticles = simulatedData.length;
+                    displayPage(simulatedData, currentPage);
+                    setupPagination(simulatedData);
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+        
+            function displayPage(data, page) {
+                const contentSection = document.getElementById("contentSection");
+                contentSection.innerHTML = ""; 
+        
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+        
+                const pageData = data.slice(startIndex, endIndex);
+        
+                pageData.forEach((article) => {
+                    const { id, date, content, image } = article;
+        
+                    const articleCard =
+                        `
+                        <article id="container">
+                            <section id="article-card">
+                                <aside class="article-date">${date}</aside>
+                                <div class="article-content">
+                                    <h3 class="article-title" 
+                                        onclick="window.location.href='/inner-information.html?id=${id}'">
+                                        ${content.title}
+                                    </h3>
+                                    <p class="article-description">
+                                        ${content.description}
+                                    </p>
+                                    <span class="article-author">${content.author}</span>
+                                </div>
+                                <aside class="article-image">
+                                    <img src="${image.src}" 
+                                        alt="${image.alt}" 
+                                        onclick="window.location.href='/inner-information.html?id=${id}'">
+                                </aside>
+                            </section>
+                        </article>
+                        `;
+        
+                    contentSection.insertAdjacentHTML("beforeend", articleCard);
+                });
+            }
+        
+            function setupPagination(data) {
+                const pagination = document.querySelector(".pagination ul");
+                pagination.innerHTML = ""; 
+        
+                const totalPages = Math.ceil(data.length / itemsPerPage);
+        
+                pagination.insertAdjacentHTML("beforeend", `
+                    <li ${currentPage === 1 ? 'id="disabled"' : ''}>
+                        <a href="#" onclick="changePage(${currentPage - 1})">Өмнөх</a>
+                    </li>
+                `);
+        
+                for (let i = 1; i <= totalPages; i++) {
+                    pagination.insertAdjacentHTML("beforeend", `
+                        <li ${currentPage === i ? 'id="active"' : ''}>
+                            <a href="#" onclick="changePage(${i})">${i}</a>
+                        </li>
+                    `);
+                }
+        
+                pagination.insertAdjacentHTML("beforeend", `
+                    <li ${currentPage === totalPages ? 'id="disabled"' : ''}>
+                        <a href="#" onclick="changePage(${currentPage + 1})">Дараах</a>
+                    </li>
+                `);
+            }
+        
+            window.changePage = function (page) {
+                if (page < 1 || page > Math.ceil(totalArticles / itemsPerPage)) {
+                    return;
+                }
+        
+                currentPage = page; 
+                displayPage(simulatedData, currentPage); 
+                setupPagination(simulatedData); 
+            };
+        
+            await getData();
+        });
+        
+    </script>
+    
+    <title>Information</title>
+</head>
+
+<body>
+    <my-header></my-header>
+    <main id="content-wrapper">
+        <h1>Мэдээлэл</h1>
+        <hr>
+        <div id="contentSection"></div>
+
+        <!-- Pagination -->
+        <nav class="pagination">
+            <ul>
+                <li id="disabled">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-arrow-left">
+                        <path d="m12 19-7-7 7-7" />
+                        <path d="M19 12H5" />
+                    </svg>
+                    <a href="">Өмнөх</a>
+                </li>
+                <li id="active"><a href="">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">...</a></li>
+                <li><a href="">67</a></li>
+                <li><a href="">68</a></li>
+                <li>
+                    Дараах
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-arrow-right">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </li>
+            </ul>
+        </nav>
+    </main>
+
+    <my-footer></my-footer>
+</body>
+
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Амьтны үрчилгээг дэмжих сайт">
+    <link rel="stylesheet" href="../styles/prod.css">
+    <link rel="stylesheet" href="../styles/cartDialog.css">
+    <script src="../js/script.js"></script>
+    <title>Нүүр</title>
+    <script>
+        function clearUrlParams() {
+            const url = new URL(window.location);
+            url.search = ''; // URL-ийн query параметрүүдийг цэвэрлэнэ
+            window.history.replaceState(null, '', url); // URL-ийг шинэчилнэ
+        }
+
+        document.addEventListener('DOMContentLoaded', async() => {
+            // URL heseg
+
+            const navigationType = performance.getEntriesByType('navigation')[0]?.type || '';
+
+            if (navigationType === 'reload') {
+                // Хэрэв хуудас refresh хийгдсэн бол clearUrlParams дуудна
+                clearUrlParams();
+            }
+
+            function syncInputsWithUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+
+                // Checkbox-уудыг шинэчлэх
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    const paramValues = urlParams.get(checkbox.name)?.split(',') || [];
+                    checkbox.checked = paramValues.includes(checkbox.value);
+                });
+
+                // Radio-уудыг шинэчлэх
+                const radios = document.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => {
+                    radio.checked = urlParams.get(radio.name) === radio.value;
+                });
+
+            }
+
+            function updateCheckboxUrl(checkbox) {
+                const url = new URL(window.location);
+                const paramName = checkbox.name;
+                const checkboxes = document.querySelectorAll(`input[name="${paramName}"]:checked`);
+                const selectedValues = Array.from(checkboxes).map(cb => cb.value);
+                if (selectedValues.length > 0) {
+                    url.searchParams.set(paramName, selectedValues.join(','));
+                } else {
+                    url.searchParams.delete(paramName);
+                }
+                window.history.replaceState(null, '', url);
+            }
+
+            function updateRadioUrl(radio) {
+                const url = new URL(window.location);
+                const paramName = radio.name;
+
+                if (radio.checked) {
+                    url.searchParams.set(paramName, radio.value);
+                } else {
+                    url.searchParams.delete(paramName);
+                }
+                window.history.replaceState(null, '', url);
+            }
+
+            function updateUrlBasedOnSelection() {
+                const url = new URL(window.location);
+
+                // Update checkbox selections
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                checkboxes.forEach(checkbox => {
+                    const paramName = checkbox.name;
+                    const selectedValues = Array.from(
+                        document.querySelectorAll(`input[name="${paramName}"]:checked`)
+                    ).map(cb => cb.value);
+                    if (selectedValues.length > 0) {
+                        url.searchParams.set(paramName, selectedValues.join(','));
+                    } else {
+                        url.searchParams.delete(paramName);
+                    }
+                });
+
+                // Update radio selections
+                const radios = document.querySelectorAll('input[type="radio"]:checked');
+                radios.forEach(radio => {
+                    const paramName = radio.name;
+                    if (radio.checked) {
+                        url.searchParams.set(paramName, radio.value);
+                    } else {
+                        url.searchParams.delete(paramName);
+                    }
+                });
+
+                window.history.replaceState(null, '', url);
+            }
+
+            // Adopt class
+            class Adopt {
+                constructor(image, altText, name, industry, age, sex, type, text, contact) {
+                    this.image = image;
+                    this.altText = altText;
+                    this.name = name;
+                    this.industry = industry;
+                    this.age = age;
+                    this.sex = sex;
+                    this.type = type;
+                    this.text = text;
+                    this.contact = contact;
+                }
+            }
+            // JSON өгөгдөл
+            // const adoptData = {
+            //     "adopts": [
+            //         {
+            //             "image": "../images/nohoi.jpg",
+            //             "altText": "Adopt1",
+            //             "name": "Лили",
+            //             "industry": "Polish Hound",
+            //             "age": 1,
+            //             "sex": "эр",
+            //             "type": "нохой",
+            //             "text": "1 жил тэжээсэн эрүүл нохой.",
+            //             "contact": "+976 89899090"
+            //         },
+            //         {
+            //             "image": "../images/nohoi.jpg",
+            //             "altText": "Adopt2",
+            //             "name": "Лулу",
+            //             "industry": "Polish Hound",
+            //             "age": 2,
+            //             "sex": "эр",
+            //             "type": "нохой",
+            //             "text": "1 жил тэжээсэн эрүүл нохой.",
+            //             "contact": "+976 89899090"
+            //         },
+            //         {
+            //             "image": "../images/nohoi.jpg",
+            //             "altText": "Adopt3",
+            //             "name": "Мими",
+            //             "industry": "Polish Hound",
+            //             "age": 6,
+            //             "sex": "эм",
+            //             "type": "муур",
+            //             "text": "1 жил тэжээсэн эрүүл муур.",
+            //             "contact": "+976 89899090"
+            //         },
+            //         {
+            //             "image": "../images/nohoi.jpg",
+            //             "altText": "Adopt4",
+            //             "name": "Луля",
+            //             "industry": "Hound",
+            //             "age": 5,
+            //             "sex": "эр",
+            //             "type": "нохой",
+            //             "text": "2 жил тэжээсэн эрүүл нохой.",
+            //             "contact": "+976 89899090"
+            //         },
+            //         {
+            //             "image": "../images/nohoi.jpg",
+            //             "altText": "Adopt5",
+            //             "name": "Кя",
+            //             "industry": "Сорт",
+            //             "age": 6,
+            //             "sex": "эр",
+            //             "type": "туулай",
+            //             "text": "1 жил тэжээсэн эрүүл нохой.",
+            //             "contact": "+976 89899090"
+            //         },
+            //         {
+            //             "image": "../images/nohoi.jpg",
+            //             "altText": "Adopt6",
+            //             "name": "Оеэ",
+            //             "industry": "Polish",
+            //             "age": 2,
+            //             "sex": "эм",
+            //             "type": "муур",
+            //             "text": "1 жил тэжээсэн эрүүл муур.",
+            //             "contact": "+976 89899090"
+            //         }
+
+            //     ]
+            // };
+
+            let adopts = [];
+
+            // Серверээс adoptions өгөгдлийг татах функц
+            async function fetchAdoptions() {
+                try {
+                    const response = await fetch('http://localhost:3000/adoptions'); // Серверийн URL
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch adoptions: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    adopts = data.map(item => new Adopt(
+                        item.image || "../images/default.jpg",
+                        item.altText || "Adopt",
+                        item.adopt_name || "Тодорхойгүй нэр",
+                        item.adopt_factory || "Тодорхойгүй үйлдвэр",
+                        item.age || "Тодорхойгүй нас",
+                        item.sex || "Тодорхойгүй хүйс",
+                        item.animal_type || "Тодорхойгүй төрөл",
+                        item.text || "Мэдээлэл алга",
+                        item.phone || "Холбогдох дугаар байхгүй"
+                    ));
+                    render(adopts); // Эхний байдлаар бүх өгөгдлийг харуулна
+                } catch (error) {
+                    console.error("Error fetching adoptions:", error.message);
+                }
+            }
+
+            // Render function
+            function render(data) {
+                const container = document.querySelector('.result');
+                if (!container) {
+                    console.error('Container ".result" not found in DOM!');
+                    return;
+                }
+
+                const html = data.reduce((acc, item) => {
+                    return acc + ` 
+                        <article class="zar">
+                            <img src="${item.image}" alt="${item.altText}" class="product-image">
+                            <div class="zar-info">
+                                <h4>${item.name}</h4>
+                                <p>${item.industry} үйлдвэрийн ${item.age} настай ${item.sex} ${item.type}. ${item.text}</p>
+                                <a href="tel:${item.contact}">Холбогдох утас: ${item.contact}</a>
+                            </div>
+                        </article>`;
+                }, '');
+
+                container.innerHTML = html;
+            }
+
+            // Filter функц
+            function filterData() {
+                const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'));
+                const radios = Array.from(document.querySelectorAll('input[type="radio"]:checked'));
+
+                const selectedCheckboxes = checkboxes.map(cb => cb.value);
+                const selectedRadio = radios[0]?.value || null;
+                const selectedRanges = checkboxes
+                    .map(cb => cb.value.split('-').map(Number))
+                    .filter(range => range.length === 2);
+
+                // Төрлөөр шүүх
+                const typeFilteredMap = selectedCheckboxes.length > 0
+                    ? adopts.filter(adopt => selectedCheckboxes.includes(adopt.type))
+                    : adopts;
+
+                // Хүйсээр шүүх
+                const sexFiltered = selectedRadio
+                    ? typeFilteredMap.filter(adopt => adopt.sex === selectedRadio)
+                    : typeFilteredMap;
+
+                // Насаар шүүх
+                const ageFiltered = selectedRanges.length > 0
+                    ? sexFiltered.filter(adopt => {
+                        const age = adopt.age;
+                        return selectedRanges.some(([min, max]) => age >= min && age <= max);
+                    })
+                    : sexFiltered;
+
+                render(ageFiltered);
+            }
+
+            // Event listener-үүдийг тохируулах
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    updateCheckboxUrl(checkbox);
+                    updateUrlBasedOnSelection();
+                    filterData();
+                });
+            });
+
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateRadioUrl(radio);
+                    updateUrlBasedOnSelection();
+                    filterData();
+                });
+            });
+
+            // Эхний байдлаар бүх өгөгдлийг харуулах
+            render(adopts);
+            // URL-ийн дагуу эхний төлөвийг тохируулах
+            syncInputsWithUrl();
+            filterData();
+
+            // Эхний байдлаар өгөгдлийг татах
+            await fetchAdoptions();
+        });
+    </script>
+    <script src="../components/my-header.js" type="module"></script>
+    <script src="../components/my-footer.js" type="module"></script>
+</head>
+
+<body>
+    <my-header></my-header>
+    <main class="seee">
+        <section class="filter">
+            <h2>Шүүлтүүр</h2>
+            <fieldset>
+                <legend>Амьтны төрөл:</legend>
+                <label><input type="checkbox" id="animal1" name="animal" value="нохой">Нохой</label>
+                <label><input type="checkbox" id="animal2" name="animal" value="муур">Муур</label>
+                <label><input type="checkbox" id="animal3" name="animal" value="туулай">Туулай</label>
+                <label><input type="checkbox" id="animal4" name="animal" value="загас">Загас</label>
+                <label><input type="checkbox" id="animal5" name="animal" value="шувуу">Шувуу</label>
+                <label><input type="checkbox" id="animal6" name="animal" value="бусад">Бусад</label>
+            </fieldset>
+            <fieldset>
+                <legend>Амьтны хүйс:</legend>
+                <label><input type="radio" id="male" name="gender" value="эр">Эр</label>
+                <label><input type="radio" id="female" name="gender" value="эм">Эм</label>
+            </fieldset>
+            <fieldset>
+                <legend>Амьтны нас:</legend>
+                <label><input type="checkbox" id="age1" name="age" value="0-2">0-2 нас</label>
+                <label><input type="checkbox" id="age2" name="age" value="2-5">2-5 нас</label>
+                <label><input type="checkbox" id="age3" name="age" value="5-7">5-7 нас</label>
+                <label><input type="checkbox" id="age4" name="age" value="7-9">7-9 нас</label>
+                <label><input type="checkbox" id="age5" name="age" value="10-99"> Дээш нас</label>
+            </fieldset>
+        </section>
+
+        <section class="result" id="product-results"></section>
+
+    </main>
+
+    <my-footer></my-footer>
+</body>
+
+</html>

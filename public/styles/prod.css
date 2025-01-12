@@ -1,0 +1,935 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--color-body);
+  font-size: 14px;
+}
+body {
+  background-color: var(--color-body);
+  margin: 0;
+  padding: 0;
+}
+
+/* html, body{
+    font-size: 16px;
+    font-family: 'Buyan Light'; 
+    background-color: var(--color-body);
+} */
+main {
+  background-color: var(--color-body);
+  padding-left: 3rem;
+}
+@font-face {
+  font-family: 'Buyan Light';
+  src: url(/styles/yubuyan-light.ttf);
+}
+@font-face {
+  font-family: 'Buyan Bold';
+  src: url(/styles/yubuyan-bold.ttf);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+}
+a{
+    text-decoration: none;
+}
+
+/* ******Нийт**********/
+:root {
+  --color-petty: #f4202e;
+  --color-grey:#aaaaaa;
+  --color-black:#333333;
+  --color-white: #fbf8f1;
+  --color-dark: #dcd7cc;
+  --shadow-1: 0rem 0.25rem 0.25rem var(--color-grey);
+  --shadow-2: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --product-border: 2px solid var(--color-petty);
+  --input-border:1px solid var(--color-black);
+  --default-border-radius: 1rem;
+  --border-radius: 0.5rem;
+  --color-body: var(--color-white);
+  --font: 'Roboto', sans-serif;
+}
+
+
+/* Гар утасны хэмжээ: 768px-с бага */
+@media only screen and (max-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+  
+  body {
+    width: 100%;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    padding: 0.5rem;
+    grid-template-columns: auto auto;
+  }
+
+  /* nav, footer{
+    display: none; 
+  }
+  .paw1{
+    display: none;
+  } */
+}
+
+/* Dark */
+@media (prefers-color-scheme: dark) {
+  :root {
+      --color-body: var(--color-dark);
+  }
+}
+
+
+  /* Толгой хэсэг */
+  header {
+    
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color:var(--color-petty);
+    border-bottom: 1px solid #ddd;
+    padding: 0rem 8.5rem;
+}
+
+header #logo {
+    cursor: pointer;
+}
+
+header input[type="search"] {
+    width: 50%; 
+    padding: 0.5rem;
+    margin-left: 2rem;
+    border-radius: var(--default-border-radius);
+    border: none;
+    font-size: 1rem;
+    justify-self: start; 
+}
+
+header aside {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+header aside button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color:var(--color-white)
+}
+
+header nav button svg {
+    width: 24px;
+    height: 24px;
+}
+
+header my-cart {
+    display: inline-block;
+}
+
+/* Доод талын навигацийн цэс */
+nav {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0.5rem 8.5rem;
+    border-top: 1px solid #ddd;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    font-size: 1rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color:black;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--color-petty);
+}
+
+  footer{
+    background-color: var(--color-petty);
+    display:flex;
+    height: 12rem;
+    justify-content:flex-start;
+    align-items: center;
+    padding: 3px 8.5rem 0px 8.5rem;
+    color:white;
+    margin-top: 2rem;
+  }
+  footer ul {
+    list-style: none;
+  }
+  footer ul li {
+    display: flex;
+  }
+  footer a{
+    display: block;
+    padding: 0.3rem 0.9rem;
+    color:white;
+  }
+  footer aside{
+    margin-left: 30rem;
+    margin-right: 30rem;
+  }
+  .end{
+    padding:0px 8.5rem;
+    color: var(--color-petty);
+  }
+
+#logo{
+    height: 3.75rem;
+    width: auto;
+    color:var(--color-white);
+  }
+/* aside{
+    border:1px solid var(--color-petty);
+    box-shadow:var(--shadow-1);
+    width: 360px;
+    height: 280px;
+  }*/
+
+.paw1{
+    background-color: var(--color-petty);
+    border-radius: var(--default-border-radius);
+    padding:0.3rem;
+    border:none;
+}
+/**********************Products******************************/
+.types {
+    background-color: var(--color-body);
+    margin: 1.25rem auto;
+    padding: 0rem 8.5rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); /* Эхлэл */
+  }
+  to {
+    transform: rotate(360deg); /* 360 градус эргэх */
+  }
+}
+
+.type {
+    display: inline-block;
+    width: 30%;
+    margin: 0.5rem;
+    text-align: center;
+    border: var(--product-border);
+    border-radius: var(--default-border-radius);
+    box-shadow: var(--shadow-1);
+    padding: 0.3rem;
+}
+.type img {
+  height: 12rem;
+  width: 16rem;
+}
+
+.type:hover .paw1 {
+  animation: spin 2s cubic-bezier(0.42, 0, 0.58, 1) infinite; /* Удаашруулж эргүүлэх */
+  transform-origin: center; /* Эргэлтийн төвийг SVG-ийн голд байрлуулах */
+}
+.type:hover img {
+  transform: scale(1.05); /* Томруулах */
+  transition: transform 0.3s ; /* Зөөлөн хөдөлгөөн */
+}
+
+.type a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+}
+
+.type pre {
+    font-family: "Caveat", cursive;
+    font-size: 1.5rem;
+    margin: 0.625rem 0rem;
+}
+
+
+.zereg {
+  display: flex;
+  align-items: center; /* Хэвтээ тэнхлэг дээр агуулгыг төвд нь байрлуулах */
+  justify-content:space-between; /* Элементийн байрлалыг зүүнээс эхлүүлэх (хэрэв шаардлагатай бол) */
+  margin-top: 2rem;
+}
+
+.zereg h3 {
+  margin: 0rem; 
+  font-size: 1.7rem;
+}
+
+.zereg a {
+  display: flex;
+  align-items: center; 
+  justify-content: flex-start;
+  /* Агуулгыг товч дотор нь голлуулж харуулах */
+}
+
+/*******************index**************************/
+
+.lists h2{
+  text-align: center;
+  font-weight: normal;
+  font-size: 1.5rem;
+  margin-top:2rem ;
+}
+
+.nuur {
+  display: flex;
+  justify-content: center; /* Хэвтээ тэнхлэгт төвд байрлуулна */
+  align-items: center; /* Босоо тэнхлэгт төвд байрлуулна */
+  text-align: center;
+  padding: 0rem 8.5rem; /* Толгой хэсгийн padding-тай тааруулсан */
+  position: relative; /* .pages-г харгалзан байрлуулахын тулд position өгсөн */
+}
+
+#dynamicImage {
+  width: 100%; /* Дэлгэцийн хэмжээнд тохирсон *//* Хэт өргөн дэлгэц дээр хязгаарлаж өгөв */
+  height: auto; /* Харьцааг алдахгүй хадгална */
+  border-radius: var(--default-border-radius);
+}
+
+.pages {
+  position: absolute;
+  bottom: 10px; /* Зургийн доороос 10px зайд байрлана */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px; /* Цэгүүдийн хоорондын зай */
+}
+
+
+
+.dot {
+  height: 15px;
+  width: 15px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: #717171;
+}
+
+.product{
+    display: inline-block;
+    width: 11%;
+    text-align: center;
+    border: 1px solid #f4202e;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-1);
+    padding: 1rem;
+    margin: 1rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.product:hover img{
+    transform: scale(1.05);
+}
+.product img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+}
+
+.product h3 {
+    font-size: 1rem;
+    color: #333;
+}
+
+.product h3, .product a {
+    margin-bottom: 0.5rem;
+}
+
+/********************OneProduct**************************/
+.jagsaah {
+    list-style-type: none;
+    padding: 0rem;
+    margin: 0rem 2.5rem 0rem 8.5rem;
+}
+.jagsaah li {
+    margin-bottom: 0.625rem; 
+}
+  
+.jagsaah li img {
+    height: 9.375rem;
+    width: 7.5rem;
+    border-radius: var(--border-radius);
+    border:var(--product-border);
+    box-shadow: var(--shadow-1);
+} 
+
+.big{
+    height: 34.375rem;
+    width: 25.625rem;
+    margin: 0rem 8rem;
+    border-radius: var(--default-border-radius);
+    border: var(--product-border);
+    box-shadow: var(--shadow-1);
+}
+
+.container {
+    display: flex;
+    justify-content:flex-start; /* Элементийн хооронд зай үүсгэх */
+    align-items: flex-start; /* Элементүүдийг дээд талаас зэрэгцүүлэх */
+    padding-top: 3rem;
+    padding-right: 8.5rem;
+}
+
+.some{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 2rem;
+}
+@keyframes golloh{
+  from{
+    transform: translateX(-300px);
+  }
+  to{
+    transform: translateX(0);
+  }
+}
+#animation{
+  animation-name: golloh;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+}
+
+
+/* .some {
+    position: relative;
+    
+    justify-content: center; 
+    align-items: center; 
+    flex-wrap: wrap;
+    
+  } */
+.songolt{
+    border: none;
+    
+}
+
+input[type="submit"]{
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--color-petty);
+    color: var(--color-white);
+    padding:0.5rem; 
+    margin-left: 3rem;
+    margin-top: 1rem;
+}
+/***************************Admins************************/
+.look {
+  display: flex;
+  align-items:self-start; /* Хэвтээ тэнхлэг дээр агуулгыг төвд нь байрлуулах */
+  justify-content:flex-start; /* Элементийн байрлалыг зүүнээс эхлүүлэх (хэрэв шаардлагатай бол) */
+  margin: 4rem;
+}
+
+.ImageSongo {
+  display: flex;
+  align-items:self-start; /* Хэвтээ тэнхлэг дээр агуулгыг төвд нь байрлуулах */
+  justify-content:flex-start; /* Элементийн байрлалыг зүүнээс эхлүүлэх (хэрэв шаардлагатай бол) */
+}
+.large-image {
+  height: 34.375rem;
+  width: 25.625rem;
+  margin: 0rem 8rem;
+  padding: 0; /* Padding-ийг арилгах */
+  border-radius: var(--default-border-radius);
+  border: var(--input-border);
+  box-shadow: var(--shadow-1);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden; /* Зураг контейнерээс хэтрэхээс сэргийлэх */
+}
+
+.large-image img {
+  width: 100%; /* Контейнерийн өргөнд тааруулах */
+  height: 100%; /* Контейнерийн өндөрт тааруулах */
+  object-fit: cover; /* Зургийг контейнерт багтаах */
+}
+
+.small-images {
+  display:inline ;
+  gap: 1rem;
+}
+/* Жижиг зургийн контейнер */
+.small-image-container {
+  position: relative; /* Устгах товчийг контейнертэй холбох */
+  height: 9.375rem;
+  width: 7.5rem;
+  border-radius: var(--border-radius);
+  border: var(--input-border);
+  box-shadow: var(--shadow-1);
+  margin-bottom: 0.5rem;
+}
+
+/* Жижиг зургийн өөрийн хэв маяг */
+.small-image-container img {
+  height: 100%; /* Контейнерийн хэмжээнд багтаах */
+  width: 100%;
+  border-radius: var(--border-radius);
+  border: var(--input-border);
+  box-shadow: var(--shadow-1);
+}
+
+/* Устгах товч */
+.remove-btn {
+  position: absolute; /* Контейнер доторх харьцангуй байрлал */
+  top: 5px; /* Дээд талд 5px зайтай байрлуулах */
+  right: 5px; /* Баруун талд 5px зайтай байрлуулах */
+  background-color: var(--color-petty); /* Улаан өнгө */
+  color: var(--color-white); /* Цагаан текст */
+  border: none; /* Хүрээг арилгах */
+  width: 20px; /* Товчны өргөн */
+  height: 20px; /* Товчны өндөр */
+  border-radius: 50%; /* Дугуй хэлбэртэй болгох */
+}
+
+/* Хулгана байрлуулсан үед товчны өнгө өөрчлөгдөнө */
+.remove-btn:hover {
+  background-color: darkred;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+input, select{
+  border-radius: 1rem;
+  border: var(--input-border)
+}
+#ilgeeh{
+  background: linear-gradient(90deg, #f66c49, #f8b785); /* Зүүнээс баруун руу градиент */
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#ilgeeh:hover {
+  background: linear-gradient(90deg, #f8b785, #f66c49); /* Хулганы даралттай үед эсрэг чиглэлд */
+}
+
+
+
+/****************Adoptions********************************************/
+.seee {
+  display: flex;
+}
+fieldset{
+  border-radius: var(--default-border-radius);
+  margin-bottom: 0.7rem;
+  padding: 0.2rem;
+}
+.filter {
+  width:16%;
+  background-color: #ddd;
+  padding: 0.3rem 0.6rem;
+  margin: 2px 2.2rem 0.3rem 5.5rem;
+  display: inline-block;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+}
+
+.filter label {
+  display: flex;
+  gap: 0.4rem;
+  padding:0.2rem;
+  margin: 0.3rem 0rem;
+  font-size: clamp(0.9rem, 1vw, 1.2rem);
+}
+
+.filter input[type="checkbox"],
+.filter input[type="radio"] {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+/* .filter fieldset {
+  margin-bottom: 0.3rem;
+  padding: 0.1rem;
+  border-radius: 0.08rem;
+} */
+
+.filter h2 {
+  margin: 0.625rem 0rem;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+  text-align: center;
+}
+.result {
+  display: flex;
+  gap:1rem;
+  overflow-x:auto;
+  padding:1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+} 
+
+#zarContainer {
+  display: flex;
+  gap:1rem;
+  overflow-x:auto;
+  padding:1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+} 
+
+.zar{
+  width: 14rem;
+  height: 18rem;
+  overflow: hidden;
+  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+  border-radius: var(--border-radius);
+  margin:0.6rem;
+  box-sizing: border-box;
+} 
+
+.zar img{
+    display:block;
+    margin: 0.5rem auto;
+    max-width: auto;
+    height: 8rem;
+    border-radius: var(--border-radius);
+}
+
+.zar h4{
+  margin: 0rem;
+  padding:0rem;
+}
+.zar-info {
+  text-align: center;
+  padding: 0rem 0.7rem;
+  flex: 1;
+}
+.zar-info a {
+  display: inline-block;
+  padding: 0.8rem 1.6 rem;
+  text-decoration: none;
+  margin-top: 0.8rem;
+}
+
+#navbar>li>a:hover{
+  color:var(--color-white);
+}
+
+/* Pagination styles inside information*/
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination li {
+  margin: 0rem 0.3rem;
+}
+
+.pagination a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  color: #333;
+  border-radius: 0.25rem;
+}
+.pagination a:hover {
+  background-color: #eee;
+}
+.pagination #active a {
+  background-color: #f4202e;
+  color: white;
+  border-color: #f4202e;
+}
+.pagination #disabled a {
+  color: #ccc;
+  pointer-events: none;
+}
+
+/**************User**************/
+#bairshil {
+  display: grid; /* Grid layout-ийг ашиглах */
+  grid-template-columns: auto 1fr auto; /* Зураг, текст, SVG гурван баганад хуваах */
+  align-items: center; /* Босоо тэнхлэгээр төвлөрүүлэх */
+  gap: 1rem; /* Элементүүдийн хоорондын зай */
+  margin-bottom: 1.5rem;
+}
+
+#bairshil img {
+  width: 10rem; 
+  height: 10rem;
+  border-radius: 50%; 
+  object-fit: cover; 
+}
+
+#bairshil pre {
+  margin: 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: pre-wrap; 
+}
+
+#bairshil a {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+
+
+/*************Cart *************/
+.zai {
+  font-family: var(--font);
+  max-width: 90.7rem;
+  margin: auto;
+  padding:1rem 2rem;
+  border-radius: var(--default-border-radius);
+  box-shadow: var(--shadow-2);
+}
+.zai button{
+  border:none;
+  border-radius: var(--default-border-radius);
+  background-color: var(--color-body);
+  font-family: var(--font);
+  font-size: 1rem;
+}
+.zai button:hover{
+  background-color: var(--color-white);
+}
+
+ #egnee {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem;
+}
+#egnee h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: #222;
+}
+
+#egnee h2 {
+  font-size: 1.7rem;
+  margin: 0;
+  color: #222;
+}
+#egneegol {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 1rem;
+}
+#pay-button{
+  background: linear-gradient(90deg, #f66c49, #f8b785); /* Зүүнээс баруун руу градиент */
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#pay-button:hover {
+  background: linear-gradient(90deg, #f8b785, #f66c49); /* Хулганы даралттай үед эсрэг чиглэлд */
+}
+
+/*
+#egnee button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#egnee button:hover {
+  background-color: #e43f3f;
+} */
+
+/* Shopping cart */
+
+/* .bag-products {
+  justify-content: space-evenly;
+}
+.bag-products>section {
+  border : 0.125rem solid black;
+  border-radius: 2%;
+}
+.bag-products>section>img {
+  height: 10rem;
+  width: 10rem;
+}
+#product-price {
+  color: #F36161; 
+  text-decoration-line: line-through;
+}
+#product-name {
+  color: #000000; 
+  font-weight: 600; 
+}
+#product-type {
+  color: #000000;
+  font-weight: 500; 
+}
+#close {
+  position: absolute; 
+  top: 5%; 
+  right: 5%; 
+  background: transparent; 
+  border: none; 
+  cursor: pointer; 
+  padding: 0; 
+  z-index: 1000; 
+} 
+#pay-button{
+  background-color: #FFC8C8;
+  border-radius: 0.5rem;
+  font-family: 'Buyan Light';
+}*/
+/* Information */
+
+#content-wrapper{
+  margin: 1.25rem auto;
+  padding:0.18rem 8.5rem;
+}
+#content-wrapper h1{
+  margin:0rem;
+}
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+#article-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 50rem; 
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+.article-date {
+  font-size: 0.875rem; 
+  color: #555;
+  min-width: 6.25rem; 
+  padding-right: 5rem;
+}
+
+.article-content {
+  flex: 1;
+}
+
+.article-title {
+  font-size: 1.125rem; 
+  font-weight: bold;
+  margin: 0;
+  color: #000;
+  cursor: pointer; 
+}
+
+.article-description {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.article-author {
+  font-size: 0.875rem;
+  color: #777;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.article-image {
+  margin-left: auto;
+  cursor: pointer; 
+}
+
+.article-image img {
+  width: 12.5rem; 
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.information img{
+  display: flex;
+  justify-self: center;
+  width:50% ;
+  height: 40%;
+}
+#left, #right {
+  display: inline-block; 
+  vertical-align: top; 
+  width: 45%; 
+  box-sizing: border-box; 
+}
+
+
+
+
+/* test */
+/* host өөрийг нь агуулж байгаа */
+:host {
+  display:block
+}
+
+

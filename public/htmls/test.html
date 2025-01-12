@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Амьтны үрчилгээг дэмжих сайт">
+    <link rel="stylesheet" href="../styles/prod.css">
+    <link rel="stylesheet" href="../styles/cartDialog.css">
+    <script src="../js/script.js"></script>
+    <title>Нүүр</title>
+    <script src="../components/my-header.js" type="module"></script>
+    <script src="../components/my-footer.js" type="module"></script>
+    <script>
+        async function getData() {
+                const url = "https://api.jsonbin.io/v3/b/6746c2bfacd3cb34a8afa1eb";
+
+                await fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Master-Key": "$2a$10$7w3VcmT.B7rqVSCm/vok8u/CpprJpveDoIogwVSLZK9AZoFdxbCLG",
+                    },
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`Error: ${response.statusText}`);
+                        }
+                        return response.json().record;
+                    })
+                    .then((json) => {
+                        console.log("Successfully fetched data:", json.record.adopts);
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            }
+        function result(){
+            const result = getData();
+            console.log()
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <my-header></my-header>
+    <!-- Main Content -->
+    <button type="button" onclick="getData()">Click me!</button>
+
+    <my-footer></my-footer>
+</body>
+
+</html>
