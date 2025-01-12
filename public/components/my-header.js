@@ -22,7 +22,6 @@ class MyHeader extends HTMLElement {
             <li><a href="../htmls/index.html">Нүүр</a></li>
             <li><a href="../htmls/products.html">Бүтээгдэхүүн</a></li>
             <li><a href="../htmls/turshilt.html">Үрчилгээ</a></li>
-            <li><a href="../htmls/information.html">Мэдээлэл</a></li>
         </ul>
     </nav>
         `
