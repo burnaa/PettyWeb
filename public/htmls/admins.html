@@ -16,7 +16,7 @@
         /* Flexbox контейнер */
         .checkbox-container {
             display: flex;
-            gap: 40px;
+            gap: 100px;
             /* Хоёр бүлгийн хоорондох зай */
             align-items: flex-start;
             /* Бүлгүүдийг дээд талаас зэрэгцүүлэх */
@@ -26,7 +26,7 @@
         .checkbox-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 1px;
         }
 
         /* Нэг эгнээнд байрлуулах */
@@ -40,13 +40,12 @@
 
         /* Label стилиуд */
         label {
-            font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 1px;
         }
 
         /* Сонгосон утгууд харуулах хэсэг */
         .selected-values {
-            margin-top: 20px;
+            margin-top: 2px;
             font-size: 14px;
             color: #555;
         }
@@ -72,7 +71,7 @@
         <form class="look">
             <aside class="ImageSongo">
                 <input type="file" id="imageUpload" accept="image/*">
-                <div class="small-images" id="smallImageContainer"></div>
+                <!-- <div class="small-images" id="smallImageContainer"></div> -->
                 <div class="large-image" id="largeImageContainer">
                     <p>Энд дарж зураг оруулна уу</p>
                     <img src="#" alt="Том зураг" id="largeImage" style="display:none;">
@@ -95,48 +94,58 @@
                     <option value="Тээвэрлэлт">Тээвэрлэлт</option>
                 </select><br><br>
 
+                <label for="animal">Амьтны төрөл:</label>
+                <select id="animal" name="animal">
+                    <option value="нохой">Нохой</option>
+                    <option value="муур">Муур</option>
+                    <option value="туулай">Туулай</option>
+                    <option value="загас">Загас</option>
+                    <option value="шувуу">Шувуу</option>
+                    <option value="бусад">Бусад</option>
+                </select><br><br>
+
                 <div class="checkbox-container">
                     <!-- Хэмжээ бүлэг -->
-                    <div class="checkbox-group">
+                    <div class="radio-group">
                         <label>Хэмжээ сонгох:</label>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="10kg" id="size-10kg">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="10kg" id="size-10kg">
                             <label for="size-10kg">10кг</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="5kg" id="size-5kg">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="5kg" id="size-5kg">
                             <label for="size-5kg">5кг</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="1kg" id="size-1kg">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="1kg" id="size-1kg">
                             <label for="size-1kg">1кг</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="0.5kg" id="size-0.5kg">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="0.5kg" id="size-0.5kg">
                             <label for="size-0.5kg">0.5кг</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="0.3kg" id="size-0.3kg">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="0.3kg" id="size-0.3kg">
                             <label for="size-0.3kg">0.3кг</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="XS" id="size-xs">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="XS" id="size-xs">
                             <label for="size-xs">XS</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="S" id="size-s">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="S" id="size-s">
                             <label for="size-s">S</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="M" id="size-m">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="M" id="size-m">
                             <label for="size-m">M</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="L" id="size-l">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="L" id="size-l">
                             <label for="size-l">L</label>
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="size" value="XL" id="size-xl">
+                        <div class="radio-item">
+                            <input type="radio" name="size" value="XL" id="size-xl">
                             <label for="size-xl">XL</label>
                         </div>
                     </div>
@@ -188,10 +197,7 @@
                             <label for="color-black">Хар</label>
                         </div>
                     </div>
-
                 </div>
-
-
                 <label for="origin">Гарал:</label>
                 <select id="origin" name="origin">
                     <option value="import">Импортлолт</option>

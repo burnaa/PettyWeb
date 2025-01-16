@@ -57,17 +57,14 @@ const swaggerDocument = {
                                     name: { type: "string", example: "Example Product" },
                                     code: { type: "string", example: "123ABC" },
                                     type: { type: "string", example: "type1" },
-                                    sizes: { type: "string", example: "XS,L,M" },
+                                    animal: { type: "string", example: "dog" },
+                                    size: { type: "string", example: "XS" },
                                     colors: { type: "string", example: "Red,Blue,Green" },
                                     origin: { type: "string", example: "import" },
-                                    certification: { type: "string", example: "Y" },
+                                    certification: { type: "string", example: "Yes" },
                                     start_date: { type: "string", format: "date", example: "2025-01-01" },
                                     end_date: { type: "string", format: "date", example: "2025-12-31" },
-                                    images: {
-                                        type: "array",
-                                        items: { type: "string", format: "url" },
-                                        example: ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
-                                    },
+                                    images: { type: "text", example: "https://example.com/image1.jpg" },
                                     price: { type: "number", example: 5000 },
                                     piece: { type: "integer", example: 100 },
                                 },
@@ -75,10 +72,12 @@ const swaggerDocument = {
                                     "name",
                                     "code",
                                     "type",
-                                    "sizes",
+                                    "animal",
+                                    "size",
                                     "colors",
                                     "origin",
                                     "certification",
+                                    "piece",
                                     "price",
                                     "images",
                                 ],
@@ -113,7 +112,7 @@ const swaggerDocument = {
                                             origin: { type: "string", example: "import" },
                                             manufacture_date: { type: "string", format: "date", example: "2025-01-01" },
                                             expiry_date: { type: "string", format: "date", example: "2025-12-31" },
-                                            price_amount: { type: "number", example: 5000 },
+                                            price: { type: "number", example: 5000 },
                                             piece: { type: "integer", example: 100 },
                                             subpic: {
                                                 type: "array",
@@ -212,39 +211,45 @@ app.post("/products", async (req, res) => {
         name,
         code,
         type,
-        sizes,
+        animal,
+        size,
         colors,
         origin,
+        certification,
         start_date,
         end_date,
-        price,
         piece,
-        images = [],
+        price,
+        images,
     } = req.body;
 
     // Validation
-    if (!name || !code || !type || !sizes || !colors || !origin || !price) {
+    if (isNaN(piece) || isNaN(price)) {
+        return res.status(400).json({ error: "Piece and price should be numeric values." });
+    }    
+    if (!name || !code || !type || !animal || !size || !colors || !origin || !price|| !images) {
         return res.status(400).json({ error: "Required fields are missing or images are empty." });
     }
-
     try {
         const query = `
-            INSERT INTO products (prod_name, prod_code, prod_type, prod_size, prod_color, origin, manufacture_date, expiry_date, price_amount, piece, subpic) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
+            INSERT INTO products (prod_name, prod_code, prod_type, prod_animal, prod_size, prod_color, origin, certification, start_date, end_date, piece, price, subpic) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
             RETURNING *`;
 
         const values = [
             name,
             code,
             type,
-            `{${sizes.split(",").map((size) => size.trim()).join(",")}}`,
+            animal,
+            size,
             `{${colors.split(",").map((color) => color.trim()).join(",")}}`,
             origin,
+            certification,
             start_date,
             end_date,
-            price,
             piece,
-            `{${images.map((img) => `"${img}"`).join(",")}}`,
+            price,
+            images
         ];
 
         const result = await pool.query(query, values);

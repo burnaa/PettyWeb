@@ -1,41 +1,45 @@
-import { initImageUpload } from './ImageAdmin.js';
+//import { initImageUpload } from './ImageAdmin.js';
+
+imageUpload.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            largeImage.src = e.target.result;
+            largeImage.style.display = "block";
+            largeImageContainer.querySelector("p").style.display = "none";
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+largeImageContainer.addEventListener("click", function () {
+    imageUpload.click();
+});
 
 document.addEventListener('DOMContentLoaded', () => {
-    const largeImageContainer = document.getElementById('largeImageContainer');
-    const largeImage = document.getElementById('largeImage');
-    const imageUpload = document.getElementById('imageUpload');
-    const smallImageContainer = document.getElementById('smallImageContainer');
-
-    // Зураг оруулах функц эхлүүлэх
-    const { getSmallImages } = initImageUpload(largeImageContainer, largeImage, imageUpload, smallImageContainer);
-
     // Submit товч дээр дарахад формын өгөгдлийг цуглуулах
     const submitButton = document.getElementById('pay-button');
     submitButton.addEventListener('click', async (event) => {
         event.preventDefault(); // Хуудас дахин ачааллагдахаас сэргийлэх
 
         const form = document.querySelector(".look"); // Формыг сонгох
-        const sizes = Array.from(form.querySelectorAll("input[name='size']:checked")).map((el) => el.value);
         const colors = Array.from(form.querySelectorAll("input[name='color']:checked")).map((el) => el.value);
-        const images = getSmallImages();
-
-        if (images.length === 0) {
-            alert("Зураг оруулах шаардлагатай!");
-            return;
-        }
 
         const productData = {
             name: form.querySelector("#name").value.trim(),
             code: form.querySelector("#code").value.trim(),
             type: form.querySelector("#type").value,
+            animal: form.querySelector("#animal").value,
             origin: form.querySelector("#origin").value,
+            certification: form.querySelector("#confirm").checked ? "Yes" : "No",
             price: parseFloat(form.querySelector("#price").value) || 0,
             piece: parseInt(form.querySelector("#piece").value, 10) || 0,
             start_date: form.querySelector("#start_date").value || null,
             end_date: form.querySelector("#end_date").value || null,
-            sizes: sizes.join(","),
+            size: form.querySelector("input[name='size']:checked")?.value || '',
             colors: colors.join(","),
-            images: images,
+            images: form.querySelector("#imageUpload").value || null,
         };
         console.log(productData);
 

@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="../styles/prod.css">
     <script src="../components/my-footer.js" type="module"></script>
     <script src="../components/my-header.js" type="module"></script>
-    <script src="../js/script.js"></script>
-    <script src="../js/temp.js"></script>
+    <!-- <script src="../js/script.js"></script>
+    <script src="../js/temp.js"></script> -->
     <title>home</title>
     <script>
         const images = [
@@ -150,6 +150,120 @@
 
 </script>
 
+<!-- buteegdehuun hesgiin ugugdul tatah heseg -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+    class Product {
+        constructor(name, code, type, animal, size, colors, origin, certification, start_date, end_date, piece, price, images) {
+            this.name = name;
+            this.code = code;
+            this.type = type;
+            this.animal= animal;
+            this.size = size;
+            this.colors = colors;
+            this.origin = origin;
+            this.certification=certification;
+            this.start_date = start_date;
+            this.end_date = end_date;
+            this.piece = piece;
+            this.price = price;
+            this.images = images;
+        }
+    }
+
+    let products = [];
+    let visibleProducts = []; // Одоогийн харагдаж буй бүтээгдэхүүнүүд
+    const maxVisible = 5; // Харагдах бүтээгдэхүүний тоо
+    let currentIndex = 0; // Одоогийн эхлэх индекс
+
+    // Серверээс бүтээгдэхүүний өгөгдлийг татах
+    async function fetchProducts() {
+        try {
+            const response = await fetch('http://localhost:3000/products'); // Серверийн URL
+            if (!response.ok) {
+                throw new Error(`Failed to fetch products: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            products = data.map(item => new Product(
+                item.prod_name || "Нэргүй",
+                item.prod_code || "Кодгүй",
+                item.prod_type || "Төрөлгүй",
+                item.prod_animal || "Амьтны төрөл байхгүй",
+                item.prod_size || "Хэмжээгүй",
+                item.prod_color || "Өнгөгүй",
+                item.origin || "Гарал үүсэлгүй",
+                item.certification || "Тийм",
+                item.start_date || "Эхлэх огноо байхгүй",
+                item.end_date || "Дуусах огноо байхгүй",
+                item.piece || "Тоо ширхэггүй",
+                item.price || "Үнийн мэдээлэл байхгүй",
+                item.subpic || "../images/default.jpg"
+            ));
+
+            visibleProducts = products.slice(0, maxVisible);
+            render();
+        } catch (error) {
+            console.error("Error fetching products:", error.message);
+        }
+    }
+
+    // Render функц
+    function render() {
+        const container = document.getElementById('productAll');
+        if (!container) {
+            console.error('Container "#productAll" not found in DOM!');
+            return;
+        }
+
+        const html = visibleProducts.reduce((acc, item) => {
+            return acc + `
+                <article class="product">
+                    <h3>${item.name}</h3>
+                    <img src="${item.images}" alt="${item.name}" class="product-image">
+                    <p>Үнэ: ${item.price}₮</p>
+                </article>`;
+        }, '');
+
+        container.innerHTML = html;
+    }
+
+    // Баруун товч
+    function showNext1() {
+        if (currentIndex + maxVisible < products.length) {
+            visibleProducts.shift();
+            visibleProducts.push(products[currentIndex + maxVisible]);
+            currentIndex++;
+            render();
+        } else {
+            alert("Дараагийн бүтээгдэхүүн байхгүй!");
+        }
+    }
+
+    // Зүүн товч
+    function showPrevious1() {
+        if (currentIndex > 0) {
+            visibleProducts.pop();
+            currentIndex--;
+            visibleProducts.unshift(products[currentIndex]);
+            render();
+        } else {
+            alert("Өмнөх бүтээгдэхүүн байхгүй!");
+        }
+    }
+
+    // Товчлуурууд дээр эвэнт холбох
+    document.getElementById('paw10').addEventListener('click', showPrevious1);
+    document.getElementById('paw20').addEventListener('click', showNext1);
+
+    // Өгөгдлийг татаж эхлүүлэх
+    await fetchProducts();
+});
+
+
+</script>
+
 </head>
 
 <body>
@@ -167,7 +281,7 @@
     <article class="lists">
         <h2>Санал болгох бүтээгдэхүүнүүд</h2>
         <aside class="some">
-            <button class="paw1" aria-label="Тэжээвэр амьтны бүтээгдэхүүн нэмж харах">
+            <button class="paw1" id="paw10" aria-label="Тэжээвэр амьтны бүтээгдэхүүн нэмж харах">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-paw-print">
@@ -179,7 +293,9 @@
                 </svg>
             </button>
 
-            <section class="product">
+            <aside class="some" id="productAll"></aside>
+
+            <!-- <section class="product">
                 <h3>Doubly Delicious</h3>
                 <a href="../htmls/oneProduct.html">
                     <img src="../images/negfood.png" alt="product">
@@ -214,8 +330,8 @@
                 <a href="../htmls/oneProduct.html">
                     <img src="../images/negfood.png" alt="product">
                 </a>
-            </section>
-            <button class="paw1" aria-label="Тэжээвэр амьтны бүтээгдэхүүн нэмж харах">
+            </section> -->
+            <button class="paw1" id="paw20" aria-label="Тэжээвэр амьтны бүтээгдэхүүн нэмж харах">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-paw-print">
