@@ -15,11 +15,96 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Caveat:wght@400..700&display=swap"
         rel="stylesheet">
+
+    <script>
+        function toggleSelection(element) {
+    element.classList.toggle('selected');
+}
+    </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        class Product {
+            constructor(name, code, type, animal, size, colors, origin, certification, start_date, end_date, piece, price, images) {
+                this.name = name;
+                this.code = code;
+                this.type = type;
+                this.animal = animal;
+                this.size = size;
+                this.colors = colors;
+                this.origin = origin;
+                this.certification = certification;
+                this.start_date = start_date;
+                this.end_date = end_date;
+                this.piece = piece;
+                this.price = price;
+                this.images = images;
+            }
+        }
+
+        let products = [];
+
+        // Серверээс бүтээгдэхүүний өгөгдлийг татах
+        async function fetchProducts() {
+            try {
+                const response = await fetch('http://localhost:3000/products'); // Серверийн URL
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch products: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                products = data.map(item => new Product(
+                    item.prod_name || "Нэргүй",
+                    item.prod_code || "Кодгүй",
+                    item.prod_type || "Төрөлгүй",
+                    item.prod_animal || "Амьтны төрөл байхгүй",
+                    item.prod_size || "Хэмжээгүй",
+                    item.prod_color || "Өнгөгүй",
+                    item.origin || "Гарал үүсэлгүй",
+                    item.certification || "Тийм",
+                    item.start_date || "Эхлэх огноо байхгүй",
+                    item.end_date || "Дуусах огноо байхгүй",
+                    item.piece || "Тоо ширхэггүй",
+                    item.price || "Үнийн мэдээлэл байхгүй",
+                    item.subpic || "../images/default.jpg"
+                ));
+
+                render(products); // Render функц руу products массиваар дамжуулж байна
+            } catch (error) {
+                console.error("Error fetching products:", error.message);
+            }
+        }
+
+        // Render функц
+        function render(data) {
+            const container = document.getElementById('filter-product');
+            if (!container) {
+                console.error('Container "#filter-product" not found in DOM!');
+                return;
+            }
+
+            const html = data.reduce((acc, item) => {
+                return acc + `
+                    <article class="product11">
+                        <h3>${item.name}</h3>
+                        <img src="${item.images}" alt="${item.name}" class="product-image">
+                        <p>Үнэ: ${item.price}₮</p>
+                    </article>`;
+            }, '');
+
+            container.innerHTML = html;
+        }
+
+        // Өгөгдлийг татаж эхлүүлэх
+        await fetchProducts();
+    });
+</script>
+
 </head>
 
 <body>
     <my-header></my-header>
-
     <main class="types">
         <aside class="zereg">
             <h3>Бүтээгдэхүүний төрөл</h3>
@@ -34,108 +119,126 @@
             </a>
         </aside>
         <hr>
-        <aside class="type">
+        <aside class="type" onclick="toggleSelection(this)">
+            <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-paw-print">
+                <circle cx="11" cy="4" r="2" />
+                <circle cx="18" cy="8" r="2" />
+                <circle cx="20" cy="16" r="2" />
+                <path
+                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+            </svg>
+            <pre id="food">Хоол</pre>
+            <img src="../images/type1.png" alt="хоол">
+        </aside>
+        <aside class="type" onclick="toggleSelection(this)">
+            <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-paw-print">
+                <circle cx="11" cy="4" r="2" />
+                <circle cx="18" cy="8" r="2" />
+                <circle cx="20" cy="16" r="2" />
+                <path
+                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+            </svg>
+            <pre>Гоёл чимэглэл</pre>
+            <img src="../images/type2 (2).png" alt="гоёл">
+        </aside>
+        <aside class="type" onclick="toggleSelection(this)">
+            <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-paw-print">
+                <circle cx="11" cy="4" r="2" />
+                <circle cx="18" cy="8" r="2" />
+                <circle cx="20" cy="16" r="2" />
+                <path
+                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+            </svg>
+            <pre>Ариун цэвэр</pre>
+            <img src="../images/type3 (2).png" alt="ариун цэвэр">
 
-            <a href="#">
-                <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-paw-print">
-                    <circle cx="11" cy="4" r="2" />
-                    <circle cx="18" cy="8" r="2" />
-                    <circle cx="20" cy="16" r="2" />
-                    <path
-                        d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                </svg>
-                <pre>Хоол</pre>
-                <img src="../images/type1.png" alt="хоол">
-            </a>
         </aside>
-        <aside class="type">
-            <a href="../htmls/oneProduct.html">
-                <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-paw-print">
-                    <circle cx="11" cy="4" r="2" />
-                    <circle cx="18" cy="8" r="2" />
-                    <circle cx="20" cy="16" r="2" />
-                    <path
-                        d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                </svg>
-                <pre>Гоёл чимэглэл</pre>
-                <img src="../images/type2 (2).png" alt="гоёл">
-            </a>
-        </aside>
-        <aside class="type">
-            <a href="../htmls/oneProduct.html">
-                <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-paw-print">
-                    <circle cx="11" cy="4" r="2" />
-                    <circle cx="18" cy="8" r="2" />
-                    <circle cx="20" cy="16" r="2" />
-                    <path
-                        d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                </svg>
-                <pre>Ариун цэвэр</pre>
-                <img src="../images/type3 (2).png" alt="ариун цэвэр">
+        <aside class="type" onclick="toggleSelection(this)">
+            <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-paw-print">
+                <circle cx="11" cy="4" r="2" />
+                <circle cx="18" cy="8" r="2" />
+                <circle cx="20" cy="16" r="2" />
+                <path
+                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+            </svg>
+            <pre>Тоглоом</pre>
+            <img src="../images/type4.png" alt="тоглоом">
 
-            </a>
         </aside>
-        <aside class="type">
-            <a href="../htmls/oneProduct.html">
-                <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-paw-print">
-                    <circle cx="11" cy="4" r="2" />
-                    <circle cx="18" cy="8" r="2" />
-                    <circle cx="20" cy="16" r="2" />
-                    <path
-                        d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+        <aside class="type" onclick="toggleSelection(this)">
+            <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-paw-print">
+                <circle cx="11" cy="4" r="2" />
+                <circle cx="18" cy="8" r="2" />
+                <circle cx="20" cy="16" r="2" />
+                <path
+                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
                 </svg>
-                <pre>Тоглоом</pre>
-                <img src="../images/type4.png" alt="тоглоом">
+            <pre>Унтах хэрэгсэл</pre>
+            <img src="../images/type5.png" alt="гоёл">
+        </aside>
+        <aside class="type" onclick="toggleSelection(this)">
+            <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-paw-print">
+                <circle cx="11" cy="4" r="2" />
+                <circle cx="18" cy="8" r="2" />
+                <circle cx="20" cy="16" r="2" />
+                <path
+                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+            </svg>
+            <pre>Тээвэрлэх сав</pre>
+            <img src="../images/type6.png" alt="гоёл">
 
-            </a>
         </aside>
-        <aside class="type">
-            <a href="../htmls/oneProduct.html">
-                <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-paw-print">
-                    <circle cx="11" cy="4" r="2" />
-                    <circle cx="18" cy="8" r="2" />
-                    <circle cx="20" cy="16" r="2" />
-                    <path
-                        d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                </svg>
-                <pre>Унтах хэрэгсэл</pre>
-                <img src="../images/type5.png" alt="гоёл">
-            </a>
-        </aside>
-        <aside class="type">
-            <a href="../htmls/oneProduct.html">
-                <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-paw-print">
-                    <circle cx="11" cy="4" r="2" />
-                    <circle cx="18" cy="8" r="2" />
-                    <circle cx="20" cy="16" r="2" />
-                    <path
-                        d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                </svg>
-                <pre>Тээвэрлэх сав</pre>
-                <img src="../images/type6.png" alt="гоёл">
 
-            </a>
+        <aside class="type" onclick="toggleSelection(this)">
+            <pre id="dog" >Нохой</pre>
+            <img src="../images/dog team-Photoroom.png" alt="хоол">
         </aside>
+
+        <aside class="type" onclick="toggleSelection(this)">
+            <pre id="cat" >Муур</pre>
+            <img src="../images/hhjj-Photoroom.png" alt="гоёл">
+        </aside>
+
+        <aside class="type" onclick="toggleSelection(this)">
+            <pre id="rabbit">Туулай</pre>
+            <img src="../images/rra-Photoroom.png" alt="ариун цэвэр">
+        </aside>
+
+        <aside class="type" onclick="toggleSelection(this)">
+            <pre id="fish" >Загас</pre>
+            <img src="../images/fifi-Photoroom.png" alt="тоглоом">
+        </aside>
+
+        <aside class="type" onclick="toggleSelection(this)">
+            <pre id="bird" >Шувуу</pre>
+            <img src="../images/bibi-Photoroom.png" alt="гоёл">
+        </aside>
+        <aside class="type" onclick="toggleSelection(this)">
+            <pre id="other" >Бусад</pre>
+            <img src="../images/oth-Photoroom.png" alt="гоёл">
+
+        </aside>
+        <hr>
+
+        <aside id="filter-product">
+
+        </aside>
+
     </main>
     <my-footer></my-footer>
 
 </body>
-<script>
-    function redirectToProduct(id) {
-        window.location.href = `products/oneProduct?id=${id}`;
-    }
-</script>
 
 </html>

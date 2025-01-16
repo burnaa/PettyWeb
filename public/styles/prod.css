@@ -225,11 +225,29 @@ nav ul li a:hover {
     border:none;
 }
 /**********************Products******************************/
+hr{
+  margin-top: 1rem;
+}
 .types {
     background-color: var(--color-body);
     margin: 1.25rem auto;
     padding: 0rem 8.5rem;
 }
+
+.type.selected img {
+  opacity: 0.5;
+}
+
+.type.selected::after {
+  content: '💗';
+  font-size: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+}
+
 
 @keyframes spin {
   from {
@@ -242,7 +260,7 @@ nav ul li a:hover {
 
 .type {
     display: inline-block;
-    width: 30%;
+    width: 15%;
     margin: 0.5rem;
     text-align: center;
     border: var(--product-border);
@@ -253,31 +271,9 @@ nav ul li a:hover {
 }
 
 .type img {
-  height: 12rem;
-  width: 16rem;
+  height: 6rem;
+  width: 8rem;
   transition: opacity 0.3s ease;
-}
-
-.type .options {
-    display: none; /* Анх харагдахгүй */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.7); /* Хар өнгийн бүдэг фон */
-    padding: 1rem;
-    border-radius: var(--default-border-radius);
-    box-shadow: var(--shadow-2);
-}
-
-.type .options select {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: var(--default-border-radius);
-    border: 1px solid #ccc;
-    background-color: #fff;
-    cursor: pointer;
 }
 
 .type:hover .paw1 {
@@ -289,32 +285,6 @@ nav ul li a:hover {
   transform: scale(1.05); /* Томруулах */
   opacity: 0.3; /* Зураг бүдэгрэх */
   transition: transform 0.3s, opacity 0.3s ease; /* Зөөлөн хөдөлгөөн */
-}
-
-.type:hover .options {
-    display: block; /* Сонголт харуулах */
-}
-
-.options select {
-  -webkit-appearance: none; /* Хөтөчийн үндсэн харагдах байдлыг өөрчлөх */
-  -moz-appearance: none;
-  appearance: none;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: var(--default-border-radius);
-  background-color: #fff; /* Сонголтын жагсаалтад зориулсан үндсэн фон */
-  cursor: pointer;
-}
-
-.options select option {
-  background-color: #fff; /* Сонголтын үндсэн өнгө */
-  color: #000; /* Сонголтын текстийн өнгө */
-}
-
-
-.type:hover .options select option:hover {
-  background-color: var(--color-petty); /* Хувьсагчийг ашиглах */
 }
 
 .type a {
@@ -436,6 +406,42 @@ nav ul li a:hover {
     margin-bottom: 0.5rem;
 }
 
+
+.product11{
+  display: inline-block;
+  width: 15%;
+  text-align: center;
+  /* border: 1px solid #f4202e; */
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-1);
+  padding: 0.3rem;
+  margin: 0.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+
+
+.product11:hover img{
+  transform: scale(1.05);
+}
+
+.product11 img {
+  display:block;
+  margin: 1rem auto;
+max-width: auto;
+height: 10rem;
+  border-radius: var(--border-radius);
+}
+
+.product11 h3 {
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  color: #333;
+}
+
+.product11 h3, .product11 a {
+  margin-bottom: 0.5rem;
+}
 /********************OneProduct**************************/
 .jagsaah {
     list-style-type: none;
