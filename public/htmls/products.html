@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Caveat:wght@400..700&display=swap"
         rel="stylesheet">
+    <script src="../components/main-product.js" type="module"></script>
 
     <script>
         let products = []; // Бүх бүтээгдэхүүнүүдийг хадгалах массив
@@ -32,6 +33,7 @@
 
                 const data = await response.json();
                 products = data.map(item => ({
+                    id: item.prod_id,
                     name: item.prod_name || "Нэргүй",
                     code: item.prod_code || "Кодгүй",
                     type: item.prod_type || "Төрөлгүй",
@@ -99,19 +101,68 @@
 
             const html = data.reduce((acc, item) => {
                 return acc + `
-                        <article class="product11">
-                            <h3>${item.name}</h3>
-                            <img src="${item.images}" alt="${item.name}" class="product-image">
-                            <p>Үнэ: ${item.price}₮</p>
-                        </article>`;
+                    <article class="product11" onclick="showProductDetails('${item.id}')">
+                        <h3>${item.name}</h3>
+                        <img src="${item.images}" alt="${item.name}" class="product-image">
+                        <p>Үнэ: ${item.price}₮</p>
+                    </article>`;
             }, '');
 
             container.innerHTML = html;
         }
 
-        render(products);
-        // Өгөгдлийг татаж эхлүүлэх
-        document.addEventListener('DOMContentLoaded', fetchProducts);
+
+
+        function showProductDetails(productID) {
+    const container = document.getElementById('one-product');
+    container.innerHTML = ''; // Хуучин контентыг цэвэрлэх
+
+    // Бүтээгдэхүүний мэдээллийг хайж олох
+    const product = products.find(p => p.id === productID);
+
+    if (!product) {
+        container.innerHTML = '<p>Бүтээгдэхүүн олдсонгүй.</p>';
+        return;
+    }
+
+    // Бүтээгдэхүүний дэлгэрэнгүй мэдээллийг гаргах HTML-г үүсгэх
+    const productHTML = `
+        <div class="container">
+            <div id="mainpicture">
+                <img class="big" src="${product.images}" alt="Main Product Image">
+            </div>
+            <article>
+                <h2 id="title">${product.name}</h2>
+                <pre>${product.type}</pre>
+                <pre>Хэмжээ: ${product.size} </pre>
+                <aside class="songolt">
+                    <pre>Өнгө</pre>
+                    <form>
+                        ${product.colors.split(',').map((color, index) => `
+                            <input type="radio" name="choice_color" id="color${index + 1}" ${index === 0 ? 'checked' : ''}>
+                            <label for="color${index + 1}">${color}</label>
+                        `).join('')}
+                    </form>
+                </aside>
+                <p id="uildverlesen">Үйлдвэрлэгдсэн огноо: ${product.start_date}</p>
+                <p id="expire">Дуусах огноо: ${product.end_date}</p>
+                <p id="origin">Бүтээгдэхүүний гарал: ${product.origin}</p>
+                <p id="standart">Баталгаажуулалт: ${product.certification}</p>
+                <span id="currency">${product.price}₮</span>
+                <br>
+                <button id="cart-button">🛒Сагсанд нэмэх🛒</button>
+            </article>
+        </div>`;
+
+    // Бүтээгдэхүүний дэлгэрэнгүй мэдээллийг контейнерт оруулах
+    container.innerHTML = productHTML;
+}
+
+        document.addEventListener('DOMContentLoaded', function () {
+            render(products); // Бүтээгдэхүүнүүдийг эхлээд харуулах
+            fetchProducts(); // Өгөгдлийг татаж эхлүүлэх
+        });
+
     </script>
 
 </head>
@@ -247,6 +298,10 @@
 
         <aside id="filter-product">
 
+        </aside>
+
+        <aside id="one-product">
+            <!-- Энд бүтээгдэхүүнүүд динамикаар харагдана -->
         </aside>
 
     </main>
