@@ -271,6 +271,50 @@ app.get('/products', async (req, res) => {
     }
 });
 
+app.get('/products/:id', async (req, res) => {
+    const { id } = req.params;
+
+    // Validation: Check if ID is a valid number
+    if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid product ID. It should be a numeric value." });
+    }
+
+    try {
+        const query = `
+            SELECT 
+                prod_id , 
+                prod_name , 
+                prod_code, 
+                prod_type, 
+                prod_animal, 
+                prod_size, 
+                ARRAY(SELECT UNNEST(prod_color)) AS colors, 
+                origin, 
+                certification, 
+                start_date, 
+                end_date, 
+                piece, 
+                price, 
+                subpic
+            FROM products 
+            WHERE prod_id = $1
+        `;
+        const values = [id];
+
+        const result = await pool.query(query, values);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Product not found." });
+        }
+
+        res.status(200).json(result.rows[0]);
+    } catch (err) {
+        console.error("Error retrieving product:", err.message);
+        res.status(500).json({ error: "Failed to retrieve product" });
+    }
+});
+
+
 // POST API: Бүтээгдэхүүний өгөгдлийг хадгалах
 app.post("/adoptions", async (req, res) => {
     const {

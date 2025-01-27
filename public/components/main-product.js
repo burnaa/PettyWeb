@@ -5,34 +5,55 @@ class MainProduct extends HTMLElement {
         this.id = null; // Анхнаасаа ID байхгүй
     }
 
+        // Энэ аттрибут өөрчлөгдөх үед 'attributeChangedCallback' ажиллана
+        static get observedAttributes() {
+            return ['product-id']; // product-id аттрибутыг ажиглах
+        }
+    
+        // Аттрибут өөрчлөгдөх үед ажиллах функц
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (name === 'product-id' && oldValue !== newValue) {
+                console.log(`Product ID changed from ${oldValue} to ${newValue}`);
+                this.fetchProductData(newValue); // Шинэ ID-гаар өгөгдөл татах
+            }
+        }
+
     // Бүтээгдэхүүний ID-г ашиглан серверээс өгөгдөл татаж авах
     async fetchProductData(productId) {
         try {
             const response = await fetch(`http://localhost:3000/products/${productId}`);
             if (response.ok) {
                 const prod = await response.json();
-                this.initializeProduct(prod); // Бүтээгдэхүүний өгөгдлийг тохируулна
+                if (!prod) {
+                    throw new Error("Бүтээгдэхүүний өгөгдөл хоосон байна!");
+                }
+                this.initializeProduct(prod);
             } else {
-                console.error('Бүтээгдэхүүний мэдээллийг авахад алдаа гарлаа.');
+                console.error('Бүтээгдэхүүний мэдээллийг авахад алдаа гарлаа:', response.status);
+                this.innerHTML = `<p>Алдаа: Бүтээгдэхүүний мэдээлэл олдсонгүй.</p>`;
             }
         } catch (error) {
-            console.log('Алдаа:', error);
+            console.error('Алдаа:', error);
+            this.innerHTML = `<p>Алдаа: Сервертэй холбогдох боломжгүй байна.</p>`;
         }
     }
+    
 
     initializeProduct(prod) {
-        this.id = prod.id;
-        this.name = prod.name;
-        this.code = prod.code;
-        this.type = prod.type;
-        this.animal = prod.animal;
-        this.size = prod.size;
-        this.color = prod.colors.map(color => color.label);
+        this.id = prod.prod_id;
+        this.name = prod.prod_name;
+        this.code = prod.prod_code;
+        this.type = prod.prod_type;
+        this.animal = prod.prod_animal;
+        this.size = prod.prod_size;
+        this.color = Array.isArray(prod.colors) 
+        ? prod.colors.map(color => color) 
+        : ["Тодорхойгүй"];
         this.origin = prod.origin;
         this.certification = prod.certification;
-        this.subpic = prod.image;
-        this.startDate = prod.startDate;
-        this.endDate = prod.endDate;
+        this.subpic = prod.subpic;
+        this.startDate = prod.start_date;
+        this.endDate = prod.end_date;
         this.piece = prod.piece;
         this.price = prod.price;
         this.number = 1;
@@ -111,6 +132,7 @@ class MainProduct extends HTMLElement {
             this.fetchProductData(productId); // Бүтээгдэхүүний өгөгдлийг татаж авна
         }
     }
+
 }
 
 window.customElements.define('main-product', MainProduct);
