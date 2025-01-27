@@ -16,6 +16,41 @@
         rel="stylesheet">
     <script src="../components/main-product.js" type="module"></script>
 
+    <style>
+        /* Бүдэгрүүлэх эффект */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        .dialog {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+    
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+
     <script>
         let products = []; // Бүх бүтээгдэхүүнүүдийг хадгалах массив
 
@@ -35,16 +70,8 @@
                 products = data.map(item => ({
                     id: item.prod_id,
                     name: item.prod_name || "Нэргүй",
-                    code: item.prod_code || "Кодгүй",
                     type: item.prod_type || "Төрөлгүй",
                     animal: item.prod_animal || "Амьтны төрөл байхгүй",
-                    size: item.prod_size || "Хэмжээгүй",
-                    colors: item.prod_color || "Өнгөгүй",
-                    origin: item.origin || "Гарал үүсэлгүй",
-                    certification: item.certification || "Тийм",
-                    start_date: item.start_date || "Эхлэх огноо байхгүй",
-                    end_date: item.end_date || "Дуусах огноо байхгүй",
-                    piece: item.piece || "Тоо ширхэггүй",
                     price: item.price || "Үнийн мэдээлэл байхгүй",
                     images: item.subpic || "../images/default.jpg"
                 }));
@@ -101,7 +128,7 @@
 
             const html = data.reduce((acc, item) => {
                 return acc + `
-                    <article class="product11" onclick="showProductDetails('${item.id}')">
+                    <article class="product11" onclick="detailsDialog(${item.id})">
                         <h3>${item.name}</h3>
                         <img src="${item.images}" alt="${item.name}" class="product-image">
                         <p>Үнэ: ${item.price}₮</p>
@@ -111,56 +138,35 @@
             container.innerHTML = html;
         }
 
+        function detailsDialog(id) {
+            // Арын элементүүдийг бүдэгрүүлэх контэйнер
+            const dialogContainer = document.getElementById('dialog-container');
 
-
-        function showProductDetails(productID) {
-    const container = document.getElementById('one-product');
-    container.innerHTML = ''; // Хуучин контентыг цэвэрлэх
-
-    // Бүтээгдэхүүний мэдээллийг хайж олох
-    const product = products.find(p => p.id === productID);
-
-    if (!product) {
-        container.innerHTML = '<p>Бүтээгдэхүүн олдсонгүй.</p>';
-        return;
-    }
-
-    // Бүтээгдэхүүний дэлгэрэнгүй мэдээллийг гаргах HTML-г үүсгэх
-    const productHTML = `
-        <div class="container">
-            <div id="mainpicture">
-                <img class="big" src="${product.images}" alt="Main Product Image">
+            // Диалогын HTML үүсгэх
+            const dialogHtml = `
+            <div class="overlay">
+                <div class="dialog">
+                    <button class="close-button" onclick="closeDialog()">×</button>
+                    <main-product product-id="${id}"></main-product>
+                </div>
             </div>
-            <article>
-                <h2 id="title">${product.name}</h2>
-                <pre>${product.type}</pre>
-                <pre>Хэмжээ: ${product.size} </pre>
-                <aside class="songolt">
-                    <pre>Өнгө</pre>
-                    <form>
-                        ${product.colors.split(',').map((color, index) => `
-                            <input type="radio" name="choice_color" id="color${index + 1}" ${index === 0 ? 'checked' : ''}>
-                            <label for="color${index + 1}">${color}</label>
-                        `).join('')}
-                    </form>
-                </aside>
-                <p id="uildverlesen">Үйлдвэрлэгдсэн огноо: ${product.start_date}</p>
-                <p id="expire">Дуусах огноо: ${product.end_date}</p>
-                <p id="origin">Бүтээгдэхүүний гарал: ${product.origin}</p>
-                <p id="standart">Баталгаажуулалт: ${product.certification}</p>
-                <span id="currency">${product.price}₮</span>
-                <br>
-                <button id="cart-button">🛒Сагсанд нэмэх🛒</button>
-            </article>
-        </div>`;
+        `;
 
-    // Бүтээгдэхүүний дэлгэрэнгүй мэдээллийг контейнерт оруулах
-    container.innerHTML = productHTML;
-}
+            // Диалогыг харуулах
+            dialogContainer.innerHTML = dialogHtml;
+            dialogContainer.style.display = 'block';
+        }
+
+        function closeDialog() {
+            // Диалогыг хаах функц
+            const dialogContainer = document.getElementById('dialog-container');
+            dialogContainer.innerHTML = '';
+            dialogContainer.style.display = 'none';
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
-            render(products); // Бүтээгдэхүүнүүдийг эхлээд харуулах
             fetchProducts(); // Өгөгдлийг татаж эхлүүлэх
+            render(products); // Бүтээгдэхүүнүүдийг эхлээд харуулах
         });
 
     </script>
@@ -296,16 +302,25 @@
         </aside>
         <hr>
 
+        <div id="dialog-container" style="display: none;"></div>
+
         <aside id="filter-product">
 
         </aside>
 
-        <aside id="one-product">
-            <!-- Энд бүтээгдэхүүнүүд динамикаар харагдана -->
-        </aside>
+        <!-- <section id="product-details">
+            <h2>Бүтээгдэхүүний нарийн мэдээлэл</h2>
+            <main-product id="main-product-container"></main-product>
+        </section> -->
+
+        <main-product product-id="6"></main-product>
 
     </main>
+
+
     <my-footer></my-footer>
+
+
 
 </body>
 
