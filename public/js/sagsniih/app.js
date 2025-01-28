@@ -1,24 +1,25 @@
-
 import Product from "./product.js";
-import Cart, { count as sagsandBaigaaBaraaniiToo} from "./cart.js";
+import Cart from "./cart.js";
 import Data from "./data.js";
 
+// app объект үүсгэх
+const app = {};
+
+// Сагсны обьект үүсгэх
 const sags = new Cart();
 app.cart = sags;
-const data = new Data("https://api.jsonbin.io/v3/b/674e28d9e41b4d34e45e9fbe"); 
-app.products = await data.refreshData();
 
-console.log("Fetched products:", app.products);
+// // Бүтээгдэхүүний мэдээллийг API-аас авах
+// const data = new Data("https://api.jsonbin.io/v3/...");
+// app.products = await data.refreshData(); // Бүтээгдэхүүний мэдээллийг авна
 
-let productsHTML = "";
-app.products.forEach((productData) => {
-    const product = new Product(productData);
-    productsHTML += product.render();
-    setTimeout(() => product.setupAddToCartButton(), 0);
-});
+// // Бүтээгдэхүүн бүрийг UI дээр харуулах
+// let productsHTML = "";
+// app.products.forEach((productData) => {
+//     const product = new Product(productData);
+//     productsHTML += product.render();
+//     setTimeout(() => product.setupAddToCartButton(app.cart)); // Add-to-Cart тохиргоо
+// });
 
-document.getElementById("prodSection").innerHTML=productsHTML;
-// if(sagsandBaigaaBaraaniiToo>0)
-//     document.getElementById("cart").innerHTML= sags.render();
-
-// app.refreshCart = _=> document.getElementById("cart").innerHTML = app.cart.render();
+// // Бүтээгдэхүүний HTML-ийг оруулах
+// document.getElementById("prodSection").innerHTML = productsHTML;

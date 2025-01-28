@@ -5,18 +5,18 @@ class MainProduct extends HTMLElement {
         this.id = null; // Анхнаасаа ID байхгүй
     }
 
-        // Энэ аттрибут өөрчлөгдөх үед 'attributeChangedCallback' ажиллана
-        static get observedAttributes() {
-            return ['product-id']; // product-id аттрибутыг ажиглах
+    // Энэ аттрибут өөрчлөгдөх үед 'attributeChangedCallback' ажиллана
+    static get observedAttributes() {
+        return ['product-id']; // product-id аттрибутыг ажиглах
+    }
+
+    // Аттрибут өөрчлөгдөх үед ажиллах функц
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'product-id' && oldValue !== newValue) {
+            console.log(`Product ID changed from ${oldValue} to ${newValue}`);
+            this.fetchProductData(newValue); // Шинэ ID-гаар өгөгдөл татах
         }
-    
-        // Аттрибут өөрчлөгдөх үед ажиллах функц
-        attributeChangedCallback(name, oldValue, newValue) {
-            if (name === 'product-id' && oldValue !== newValue) {
-                console.log(`Product ID changed from ${oldValue} to ${newValue}`);
-                this.fetchProductData(newValue); // Шинэ ID-гаар өгөгдөл татах
-            }
-        }
+    }
 
     // Бүтээгдэхүүний ID-г ашиглан серверээс өгөгдөл татаж авах
     async fetchProductData(productId) {
@@ -37,7 +37,7 @@ class MainProduct extends HTMLElement {
             this.innerHTML = `<p>Алдаа: Сервертэй холбогдох боломжгүй байна.</p>`;
         }
     }
-    
+
 
     initializeProduct(prod) {
         this.id = prod.prod_id;
@@ -46,9 +46,9 @@ class MainProduct extends HTMLElement {
         this.type = prod.prod_type;
         this.animal = prod.prod_animal;
         this.size = prod.prod_size;
-        this.color = Array.isArray(prod.colors) 
-        ? prod.colors.map(color => color) 
-        : ["Тодорхойгүй"];
+        this.color = Array.isArray(prod.colors)
+            ? prod.colors.map(color => color)
+            : ["Тодорхойгүй"];
         this.origin = prod.origin;
         this.certification = prod.certification;
         this.subpic = prod.subpic;
@@ -113,6 +113,20 @@ class MainProduct extends HTMLElement {
             const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
             cartItems.push(productData);
             localStorage.setItem('cart', JSON.stringify(cartItems));
+
+            // CustomEvent үүсгэж дамжуулах
+            const cartEvent = new CustomEvent('productAddedToCart', {
+                detail: {
+                    product: productData
+                },
+                bubbles: true, // Event-г root хүртэл хүргэх
+                composed: true // Shadow DOM-оос гадна хүргэх
+            });
+
+            console.log("CustomEvent dispatched:", cartEvent);
+
+            document.dispatchEvent(cartEvent); // Custom Event dispatch хийх
+
             alert("Бүтээгдэхүүнийг сагсанд нэмлээ!");
 
             // Хэрэв 'my-cart' эсвэл 'app' тодорхойлогдсон бол ажиллуулна.

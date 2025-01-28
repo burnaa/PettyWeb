@@ -1,38 +1,35 @@
 class CartTotal extends HTMLElement {
     constructor() {
         super();
-        this.totalPrice = 0;
+        this.totalPrice = 0; // Нийт үнийг хадгалах
     }
 
     connectedCallback() {
-        this.calculateTotalFromLocalStorage();
+        this.render(); // Анхны UI-г хоосон байдлаар үүсгэх
+    
+        // CustomEvent сонсох
+        document.addEventListener('productAddedToCart', (event) => {
+            //const product = event.detail; // Event доторх бүтээгдэхүүний бүх мэдээллийг авах
+            this.addProductAndRecalculate(event.detail.price); // Нийт дүнг шинэчлэх
+        });
+    }
+    
+    // Шинэ бүтээгдэхүүн нэмэх, нийт дүнг тооцоолох
+    addProductAndRecalculate(p) {
+        this.totalPrice += p; // Нийт дүнг нэмэгдүүлэх
+        console.log(`Updated Total Price: ${this.totalPrice}`);
         this.render();
     }
-
-    calculateTotalFromLocalStorage() {
-        // LocalStorage-аас өгөгдлийг авах
-        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-        
-        // Нийт дүнг тооцоолох
-        this.totalPrice = cartItems.reduce((sum, item) => {
-            return sum + (item.number * item.price);
-        }, 0);
-    }
-
+    
     render() {
-        // Нийт дүнг харуулах HTML-г шинэчлэх
         this.innerHTML = `
             <div class="total-price">
                 <pre>   Нийт дүн: ${this.totalPrice}₮</pre>
             </div>
         `;
     }
-
-    updateTotalFromEvent(cartItems) {
-        // Custom event-ээс ирсэн өгөгдөл дээр үндэслэн нийт дүнг шинэчлэх
-        this.totalPrice = cartItems.reduce((sum, item) => sum + (item.number * item.price), 0);
-        this.render(); // Шинэчлэгдсэн дүнг харагдуулах
-    }
+    
+    
 }
 
 customElements.define('cart-total', CartTotal);
