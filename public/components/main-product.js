@@ -2,23 +2,36 @@ import "./my-cart.js"
 class MainProduct extends HTMLElement {
     constructor() {
         super();
-        this.id = null; // Анхнаасаа ID байхгүй
+        this._productId = null; // `_productId` property-г хадгалах хувийн хувьсагч
     }
 
-    // Энэ аттрибут өөрчлөгдөх үед 'attributeChangedCallback' ажиллана
+    // Аттрибутуудыг ажиглах
     static get observedAttributes() {
-        return ['product-id']; // product-id аттрибутыг ажиглах
+        return ['product-id'];
     }
 
-    // Аттрибут өөрчлөгдөх үед ажиллах функц
+    // Аттрибут өөрчлөгдөх үед
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'product-id' && oldValue !== newValue) {
-            console.log(`Product ID changed from ${oldValue} to ${newValue}`);
-            this.fetchProductData(newValue); // Шинэ ID-гаар өгөгдөл татах
+            this.productId = newValue; // Аттрибут өөрчлөгдөхөд property-г өөрчлөх
         }
     }
 
-    // Бүтээгдэхүүний ID-г ашиглан серверээс өгөгдөл татаж авах
+    // Getter: property-г авахад ашиглагдана
+    get productId() {
+        return this._productId;
+    }
+
+    // Setter: property-г өөрчлөхөд ашиглагдана
+    set productId(value) {
+        if (this._productId !== value) {
+            this._productId = value;
+            console.log(`Property 'productId' changed to ${value}`);
+            this.fetchProductData(value); // Property солигдоход өгөгдөл татах
+        }
+    }
+
+    // Бүтээгдэхүүний өгөгдөл татах
     async fetchProductData(productId) {
         try {
             const response = await fetch(`http://localhost:3000/products/${productId}`);
@@ -37,7 +50,6 @@ class MainProduct extends HTMLElement {
             this.innerHTML = `<p>Алдаа: Сервертэй холбогдох боломжгүй байна.</p>`;
         }
     }
-
 
     initializeProduct(prod) {
         this.id = prod.prod_id;
@@ -119,17 +131,16 @@ class MainProduct extends HTMLElement {
                 detail: {
                     product: productData
                 },
-                bubbles: true, // Event-г root хүртэл хүргэх
-                composed: true // Shadow DOM-оос гадна хүргэх
+                bubbles: true,
+                composed: true
             });
 
             console.log("CustomEvent dispatched:", cartEvent);
 
-            document.dispatchEvent(cartEvent); // Custom Event dispatch хийх
+            document.dispatchEvent(cartEvent);
 
             alert("Бүтээгдэхүүнийг сагсанд нэмлээ!");
 
-            // Хэрэв 'my-cart' эсвэл 'app' тодорхойлогдсон бол ажиллуулна.
             if (document.getElementById("my-cart")) {
                 document.getElementById("my-cart").addProduct(this.id);
             }
@@ -141,9 +152,8 @@ class MainProduct extends HTMLElement {
     }
 
     connectedCallback() {
-        const productId = this.getAttribute('product-id'); // Атрибутаас бүтээгдэхүүний ID-г авна
-        if (productId) {
-            this.fetchProductData(productId); // Бүтээгдэхүүний өгөгдлийг татаж авна
+        if (this.hasAttribute('product-id')) {
+            this.productId = this.getAttribute('product-id'); // Property-г ашиглан аттрибутыг тохируулах
         }
     }
 
