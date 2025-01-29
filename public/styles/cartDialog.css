@@ -2,6 +2,7 @@
 /* ******Нийт**********/
 :root {
     --color-petty: #f4202e;
+    --color-pink:rgb(39, 37, 37);
     --color-grey:#aaaaaa;
     --color-black:#333333;
     --color-white: #fbf8f1;
@@ -15,6 +16,18 @@
     --color-body: var(--color-white);
     --font: 'Roboto', sans-serif;
   }
+  
+/* Theme-г тохируулах */
+[data-theme="dark"] {
+    --bg-color: var(--color-pink);
+    --text-color: var(--color-white);
+  }
+  
+  [data-theme="light"] {
+    --bg-color: var(--color-white);
+    --text-color: var(--color-black);
+  }
+  
   /* Dark */
 @media (prefers-color-scheme: dark) {
     :root {
@@ -105,12 +118,12 @@ svg {
     transition: background-color 0.06s;
 }
 
-
-
 .loginDialog {
     position: fixed;
     width: 30%;
     padding: 2.5rem;
+    background-color: var(--bg-color); /* Custom property ашиглаж байна */
+    color: var(--text-color);
     border-radius: var(--default-border-radius);
     box-sizing: border-box;
     background-color: var(--color-body);

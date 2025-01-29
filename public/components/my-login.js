@@ -1,28 +1,31 @@
 class MyLogin extends HTMLElement {
     constructor() {
         super();
-        this.dialog = null;  // Динамикаар үүсгэх диалог
-        this.backdrop = null; // Бүдэглэх давхарга 
-        //implementation
-
+        this.dialog = null; // Диалог үүсгэх
+        this.backdrop = null; // Бүдэглэх давхарга
+        this.theme = 'light'; // Эхний theme-г light болгоно
     }
-    render(){
-        this.innerHTML =`<button class="loginButton" aria-label="хэрэглэгч хэсэг">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-user">
-                <title>Хэрэглэгчийн дүрс</title>
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-            </svg>
-        </button>`
+
+    render() {
+        this.innerHTML = `
+            <button class="loginButton" aria-label="хэрэглэгч хэсэг">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-user">
+                    <title>Хэрэглэгчийн дүрс</title>
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </button>
+        `;
     }
 
     connectedCallback() {
-        //implementation
         this.render();
         const button = this.querySelector(".loginButton");
-        button.addEventListener("click", ()=>this.showLogin());
+
+        // Товчин дээр дарж диалогийг харуулах
+        button.addEventListener("click", () => this.showLogin());
     }
 
     showLogin() {
@@ -37,11 +40,20 @@ class MyLogin extends HTMLElement {
         if (!this.dialog) {
             this.dialog = document.createElement("div");
             this.dialog.classList.add("loginDialog");
+
             this.dialog.innerHTML = `
                 <aside>
-                    <div class="login-header">Тавтай морил
-                        <img src="../images/logo.png" alt="logo"
-                            style="width: 3rem; height: 3.2rem; margin-left: 15rem">
+                    <div class="login-header">
+                        Тавтай морил
+                        
+                        <img src="../images/logo.png" alt="logo" id="logo"
+                            style="width: 3rem; height: 3.2rem; margin-left: 15rem; cursor: pointer;">
+
+                        <div class="theme-toggle">
+                            <label>
+                                <input type="checkbox" id="theme-toggle" />
+                            </label>
+                        </div>
                     </div>
                     <p>Шинэ, шилдэг бүхнийг хамгийн түрүүнд...</p>
                     <form class="modal-body">
@@ -49,56 +61,53 @@ class MyLogin extends HTMLElement {
                         <input type="password" id="password" placeholder="Нууц үгээ оруулна уу">
                         <a href="#">Нууц үгээ мартсан уу?</a>
                         <br>
-                        <button><a href="user.html" class="checkout">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                                stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-paw-print">
-                                <circle cx="11" cy="4" r="2" />
-                                <circle cx="18" cy="8" r="2" />
-                                <circle cx="20" cy="16" r="2" />
-                                <path
-                                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                            </svg>
+                        <button type="button" class="checkout">
                             Нэвтрэх
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                                stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-paw-print">
-                                <circle cx="11" cy="4" r="2" />
-                                <circle cx="18" cy="8" r="2" />
-                                <circle cx="20" cy="16" r="2" />
-                                <path
-                                    d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                            </svg></a>
                         </button>
-                        <div class="login-footer">
-                            <p> Шинэ хэрэглэгч <p>
-                            <a href="#">Бүртгүүлэх</a>
-                        </div>
                     </form>
                 </aside>
             `;
+
             document.body.appendChild(this.dialog);
 
+            // **Dark/Light mode toggle хэрэгжүүлэх**
+            const themeToggle = this.dialog.querySelector("#theme-toggle");
+            themeToggle.addEventListener("change", (e) => {
+                this.theme = e.target.checked ? 'dark' : 'light';
+                this.updateTheme();
+            });
         }
 
-        // Backdrop ба диалогыг харагдуулах
+        // Backdrop болон диалогыг харуулах
         this.backdrop.style.display = "block";
         this.dialog.style.display = "block";
 
-        // Modal-ыг гадна дарж хаах эвент нэмэх
+        // Backdrop дээр дарж хаах
         window.addEventListener("click", (event) => {
             if (event.target === this.backdrop) {
                 this.closeDialog();
             }
         });
+
+        // Эхний theme-г тохируулах
+        this.updateTheme();
     }
+
+    updateTheme() {
+        document.documentElement.setAttribute('data-theme', this.theme);
+    
+        if (this.dialog) {
+            this.dialog.style.backgroundColor = `var(--bg-color)`;
+            this.dialog.style.color = `var(--text-color)`;
+        }
+    }
+    
 
     closeDialog() {
         // Backdrop болон диалогыг нуух
         if (this.backdrop) this.backdrop.style.display = "none";
         if (this.dialog) this.dialog.style.display = "none";
     }
-    
 }
 
-window.customElements.define('my-login', MyLogin);
+window.customElements.define("my-login", MyLogin);

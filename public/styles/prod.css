@@ -58,6 +58,13 @@ a{
   --font: 'Roboto', sans-serif;
 }
 
+/* Dark */
+@media (prefers-color-scheme: dark) {
+  :root {
+      --color-body: var(--color-dark);
+  }
+}
+
 
 /* Гар утасны хэмжээ: 768px-с бага */
 @media only screen and (max-width: 768px) {
@@ -83,13 +90,6 @@ a{
   .paw1{
     display: none;
   } */
-}
-
-/* Dark */
-@media (prefers-color-scheme: dark) {
-  :root {
-      --color-body: var(--color-dark);
-  }
 }
 
 
