@@ -371,6 +371,10 @@ hr{
   background-color: #717171;
 }
 
+my-order {
+  margin: 10px;
+}
+
 .product{
     display: inline-block;
     width: 14rem;

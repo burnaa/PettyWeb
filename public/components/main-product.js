@@ -119,8 +119,10 @@ class MainProduct extends HTMLElement {
                 color: colorElement.nextElementSibling.textContent,
                 price: this.price,
                 image: this.subpic,
-                number: this.number
+                number: this.number,
+                piece:this.piece
             };
+            console.log(productData);
 
             const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
             cartItems.push(productData);

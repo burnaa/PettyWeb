@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../styles/cartDialog.css">
     <script src="../components/my-footer.js" type="module"></script>
     <script src="../components/my-header.js" type="module"></script>
-    <script type="module" src="../js/sagsniih/app.js"></script>
+    <script src="../components/my-order.js" type="module"></script>
 </head>
 
 <body>
@@ -17,9 +17,9 @@
     <main class="zai">
         <aside id="egnee">
             <h2>Сагс</h2>
-            <button id="pay-button" class="clear-button"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
-                    fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-trash-2">
+            <button id="pay-button" class="clear-button"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                    viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="lucide lucide-trash-2">
                     <path d="M3 6h18" />
                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -28,6 +28,12 @@
                 </svg> Сагс хоослох</button>
         </aside>
         <hr>
+
+        <!-- <my-order image="https://example.com/product.jpg" status="sale">
+            <span slot="name">iPhone 15 Pro</span>
+            <span slot="quantity">2 ширхэг</span>
+            <span slot="price">$999.99</span>
+        </my-order> -->
 
         <div id="product-list"></div>
 
@@ -44,32 +50,38 @@
 
         if (orderItems.length > 0) {
             orderItems.forEach(item => {
-                const orderDiv = document.createElement('section');
-                orderDiv.classList.add('product');
-                orderDiv.innerHTML = `
-                    <aside id="egnee">
-                        <h3>${item.name}</h3>
-                    </aside>
-                    <pre>${item.color}  ${item.size}</pre>
-                    <a href="oneProduct.html">
-                        <img src=${item.image} alt="product">
-                    </a>
-                    <div>
-                        <span id="quantity" style="font-size: 12px; ">${item.number} ширхэг</span>
-                    </div>
-                    <p>${item.price * item.number}₮</p>
-                `;
-                productList.appendChild(orderDiv);
+                const orderComponent = document.createElement("my-order");
 
+                // Slot-д дамжуулах утгуудыг тохируулах
+                orderComponent.innerHTML = `
+                    <span slot="name">${item.name}</span>
+                    <span slot="quantity">${item.number} ширхэг</span>
+                    <span slot="color">${item.color}</span>
+                    <span slot="size">${item.size}</span>
+                    <span slot="price">Төлбөр: ${(item.price * item.number).toLocaleString()}₮</span>
+                `;
+
+                orderComponent.setAttribute("image", item.image);
+                orderComponent.setAttribute("number", item.number);
+                orderComponent.setAttribute("piece", item.piece); // Бэлэн байгаа бүтээгдэхүүний тоо
+
+                productList.appendChild(orderComponent);
             });
         } else {
-            productList.innerHTML = '<p>Сагс хоосон байна.</p>';
+            productList.innerHTML = "<p>Сагс хоосон байна.</p>";
         }
 
+
         // Нийт дүн тооцоолох
-        const totalPrice = orderItems.reduce((sum, item) => {
-            return sum + (item.number * item.price);
-        }, 0);
+        // const totalPrice = orderItems.reduce((sum, item) => {
+        //     return sum + (item.number * item.price);
+        // }, 0);
+
+        // Нийт дүн тооцоолох (зөвхөн бэлэн байгаа бүтээгдэхүүнүүдийг тооцно)
+        const totalPrice = orderItems
+            .filter(item => item.number <= item.piece) // Зөвхөн бэлэн байгаа бүтээгдэхүүнүүдийг авах
+            .reduce((sum, item) => sum + (item.number * item.price), 0);
+
 
         // Нийт дүнг харуулах
         total.innerHTML = `
@@ -88,7 +100,7 @@
             </button>
         `;
 
-        document.querySelector('.clear-button').addEventListener('click', function() {
+        document.querySelector('.clear-button').addEventListener('click', function () {
             // localStorage-ийг цэвэрлэх
             localStorage.clear();
             alert("Сагс хоосоллоо.");

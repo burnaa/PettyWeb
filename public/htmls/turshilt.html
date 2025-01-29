@@ -16,7 +16,7 @@
             window.history.replaceState(null, '', url); // URL-ийг шинэчилнэ
         }
 
-        document.addEventListener('DOMContentLoaded', async() => {
+        document.addEventListener('DOMContentLoaded', async () => {
             // URL heseg
 
             const navigationType = performance.getEntriesByType('navigation')[0]?.type || '';
@@ -244,9 +244,18 @@
 
                 const selectedCheckboxes = checkboxes.map(cb => cb.value);
                 const selectedRadio = radios[0]?.value || null;
-                const selectedRanges = checkboxes
-                    .map(cb => cb.value.split('-').map(Number))
-                    .filter(range => range.length === 2);
+                const selectedRanges = [];
+                checkboxes.forEach(cb => {
+                    const parts = cb.value.split('-');
+                    if (parts.length === 2) {
+                        const min = Number(parts[0]);
+                        const max = Number(parts[1]);
+                        if (!isNaN(min) && !isNaN(max)) {
+                            selectedRanges.push([min, max]);
+                        }
+                    }
+                });
+
 
                 // Төрлөөр шүүх
                 const typeFilteredMap = selectedCheckboxes.length > 0
