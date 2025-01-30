@@ -130,7 +130,107 @@ const swaggerDocument = {
                     },
                 },
             },
+
         },
+
+
+        
+        "/products/search/{search}": {
+            get: {
+                summary: "Search products by name or code",
+                parameters: [
+                    {
+                        name: "search",
+                        in: "path",
+                        required: true,
+                        description: "Хайх утга (e.g., бүтээгдэхүүний нэр эсвэл код)",
+                        schema: { type: "string",
+                                 example: "test"  },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Амжилттай хайлт",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                        type: "object",
+                                        properties: {
+                                            prod_id: { type: "integer", example: 1 },
+                                            prod_name: { type: "string", example: "Example Product" },
+                                            prod_code: { type: "string", example: "123ABC" },
+                                            prod_type: { type: "string", example: "type1" },
+                                            prod_size: { type: "string", example: "XS" },
+                                            prod_color: { type: "array", items: { type: "string" }, example: ["Red", "Blue", "Green"] },
+                                            origin: { type: "string", example: "import" },
+                                            certification: { type: "string", example: "Yes" },
+                                            start_date: { type: "string", format: "date", example: "2025-01-01" },
+                                            end_date: { type: "string", format: "date", example: "2025-12-31" },
+                                            piece: { type: "integer", example: 100 },
+                                            price: { type: "number", example: 5000 },
+                                            subpic: { type: "string", format: "uri", example: "https://example.com/image1.jpg" },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    400: { description: "Хайх утга буруу байна." },
+                    500: { description: "Хайлтын алдаа." },
+            },
+        },
+
+        "/products/{id}": {
+            get: {
+                summary: "Retrieve a product by ID",
+                description: "Fetch a specific product's details using its unique ID.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        description: "Unique ID of the product to retrieve.",
+                        schema: {
+                            type: "integer",
+                            example: 1
+                        }
+                    }
+                ],
+                responses: {
+                    200: {
+                        description: "Product details retrieved successfully",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "object",
+                                    properties: {
+                                        prod_id: { type: "integer", example: 1 },
+                                        prod_name: { type: "string", example: "Example Product" },
+                                        prod_code: { type: "string", example: "123ABC" },
+                                        prod_type: { type: "string", example: "type1" },
+                                        prod_animal: { type: "string", example: "dog" },
+                                        prod_size: { type: "string", example: "XS" },
+                                        colors: { type: "array", "items": { type: "string" }, example: ["Red", "Blue", "Green"] },
+                                        origin: { type: "string", example: "import" },
+                                        certification: { type: "string", example: "Yes" },
+                                        start_date: { type: "string", format: "date", example: "2025-01-01" },
+                                        end_date: { type: "string", format: "date", example: "2025-12-31" },
+                                        piece: { type: "integer", example: 100 },
+                                        price: { type: "number", example: 5000.00 },
+                                        subpic: { type: "text", example: "https://example.com/image1.jpg" },
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    400: { description: "Invalid product ID provided" },
+                    404: { description: "Product not found" },
+                    500: { description: "Error retrieving product" }
+                }
+            }
+        },
+
+
         "/adoptions": {
             post: {
                 summary: "Add a new adoption information",
@@ -148,7 +248,7 @@ const swaggerDocument = {
                                     details: { type: "text", example: "Good dog. i love dog." },
                                     phone: { type: "number", example: 89259999 },
                                     image: { type: "text", format: "url", example: "https://example.com/image1.jpg" },
-                                    text: { type: "text", example:"nohoinii maani zurag"},
+                                    text: { type: "text", example: "nohoinii maani zurag" },
                                 },
                                 required: [
                                     "name",
@@ -226,8 +326,8 @@ app.post("/products", async (req, res) => {
     // Validation
     if (isNaN(piece) || isNaN(price)) {
         return res.status(400).json({ error: "Piece and price should be numeric values." });
-    }    
-    if (!name || !code || !type || !animal || !size || !colors || !origin || !price|| !images) {
+    }
+    if (!name || !code || !type || !animal || !size || !colors || !origin || !price || !images) {
         return res.status(400).json({ error: "Required fields are missing or images are empty." });
     }
     try {
@@ -270,6 +370,48 @@ app.get('/products', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch products' });
     }
 });
+
+
+app.get('/products/search/:search', async (req, res) => {
+    const { search } = req.params; // "query" биш "search" гэж зөв оноож авна
+
+    console.log('Query параметр:', search);
+
+    try {
+        const sqlQuery = `
+            SELECT prod_id , 
+                prod_name , 
+                prod_code, 
+                prod_type, 
+                prod_animal, 
+                prod_size, 
+                ARRAY(SELECT UNNEST(prod_color)) AS prod_color, 
+                origin, 
+                certification, 
+                start_date, 
+                end_date, 
+                piece, 
+                price, 
+                subpic
+            FROM products 
+            WHERE prod_name ILIKE $1 OR prod_code ILIKE $1
+        `;
+        const values = [`%${search}%`]; // LIKE хайлт хийхийн тулд '%search%' гэж бичнэ
+
+        const result = await pool.query(sqlQuery, values);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Бүтээгдэхүүн олдсонгүй.' });
+        }
+
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error('Error searching products:', err.message);
+        res.status(500).json({ error: 'Failed to search products.' });
+    }
+});
+
+
 
 app.get('/products/:id', async (req, res) => {
     const { id } = req.params;
@@ -330,7 +472,7 @@ app.post("/adoptions", async (req, res) => {
     } = req.body;
 
     // Validation
-    if (!name || !factory || !age || !sex|| !type || !image|| !phone) {
+    if (!name || !factory || !age || !sex || !type || !image || !phone) {
         return res.status(400).json({ error: "Required fields are missing or images are empty." });
     }
 
@@ -365,10 +507,10 @@ app.get("/adoptions", async (req, res) => {
     try {
         // Query to fetch all records from adoptions table
         const query = "SELECT * FROM adoptions";
-        
+
         // Execute the query
         const result = await pool.query(query);
-        
+
         // Send back the rows as response
         res.status(200).json(result.rows);
     } catch (err) {
