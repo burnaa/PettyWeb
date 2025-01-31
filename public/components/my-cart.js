@@ -1,5 +1,6 @@
 import "./cart-list.js"
 import "./cart-total.js"
+import "./main-product.js"
 class MyCart extends HTMLElement {
     constructor() {
         super();

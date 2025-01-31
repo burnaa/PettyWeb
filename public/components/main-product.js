@@ -1,4 +1,5 @@
 import "./my-cart.js"
+import "./cart-total.js"
 class MainProduct extends HTMLElement {
     constructor() {
         super();
@@ -129,17 +130,13 @@ class MainProduct extends HTMLElement {
             localStorage.setItem('cart', JSON.stringify(cartItems));
 
             // CustomEvent үүсгэж дамжуулах
-            const cartEvent = new CustomEvent('productAddedToCart', {
-                detail: {
-                    product: productData
-                },
-                bubbles: true,
-                composed: true
+            const event = new CustomEvent('productAddedToCart', {
+                detail: {product : productData},
+                bubbles: true
             });
-
-            console.log("CustomEvent dispatched:", cartEvent);
-
-            document.dispatchEvent(cartEvent);
+            
+            console.log("CustomEvent dispatched:", event);
+            window.dispatchEvent(event);
 
             alert("Бүтээгдэхүүнийг сагсанд нэмлээ!");
 

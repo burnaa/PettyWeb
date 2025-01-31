@@ -62,7 +62,7 @@ class MyLogin extends HTMLElement {
                         <a href="#">Нууц үгээ мартсан уу?</a>
                         <br>
                         <button type="button" class="checkout">
-                            Нэвтрэх
+                            <a href="../htmls/user.html"> Нэвтрэх</a>
                         </button>
                     </form>
                 </aside>

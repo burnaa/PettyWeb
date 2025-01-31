@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Event Example</title>
+</head>
+<body>
+    <!-- Хоёр компонент -->
+    <input-form></input-form>
+    <display-message></display-message>
+
+    <script>
+        // Component 1: InputForm
+        class InputForm extends HTMLElement {
+            connectedCallback() {
+                // Компонентын HTML-ийг нэмэх
+                this.innerHTML = `
+                    <form id="name-form">
+                        <input type="text" id="name-input" placeholder="Нэрээ оруулна уу" required>
+                        <button type="submit">Илгээх</button>
+                    </form>
+                `;
+                // Form-ийн submit эвентийн сонсогч нэмэх
+                this.querySelector('#name-form').addEventListener('submit', (event) => this.handleSubmit(event));
+            }
+
+            handleSubmit(event) {
+                event.preventDefault(); // Form-ийн default үйлдлийг зогсоох
+                const name = this.querySelector('#name-input').value.trim(); // Input-оос утга авах
+                if (name) {
+                    this.dispatchCustomEvent(name); // Custom Event үүсгэх
+                    this.querySelector('#name-input').value = ''; // Input талбарыг цэвэрлэх
+                }
+            }
+
+            dispatchCustomEvent(name) {
+                // Custom Event үүсгэх
+                const event = new CustomEvent('nameSubmitted', {
+                    detail: { name }, // Оруулсан нэрийг эвентээр дамжуулах
+                    bubbles: true, // Эвент дээш дамжина
+                });
+                this.dispatchEvent(event); // Эвентыг дамжуулах
+            }
+        }
+
+        // Component 2: DisplayMessage
+        class DisplayMessage extends HTMLElement {
+            connectedCallback() {
+                // Эхний дэлгэцийн текст
+                this.innerHTML = `<p>Мессеж харагдах хэсэг.</p>`;
+                // Custom Event-ийг сонсох
+                document.addEventListener('nameSubmitted', (event) => this.updateMessage(event.detail.name));
+            }
+
+            updateMessage(name) {
+                // Мессежийг шинэчлэх
+                this.innerHTML = `<p>Сайн байна уу, ${name}!</p>`;
+            }
+        }
+
+        // Custom Elements бүртгэх
+        customElements.define('input-form', InputForm);
+        customElements.define('display-message', DisplayMessage);
+    </script>
+</body>
+</html>
