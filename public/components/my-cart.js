@@ -1,17 +1,16 @@
-import "./cart-list.js"
-import "./cart-total.js"
-import "./main-product.js"
+import "./cart-list.js";
+import "./main-product.js";
+
 class MyCart extends HTMLElement {
     constructor() {
         super();
-        // Хадгалагдсан бүтээгдэхүүнүүдийг авах
         const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-        this.sagsniiToo= cartItems.reduce((sum, item) => {
-            return sum + (item.number);
-        }, 0);
-        this.dialog = null;  // Динамикаар үүсгэх диалог
-        this.backdrop = null; // Бүдэглэх давхарга   
+        this.sagsniiToo = cartItems.reduce((sum, item) => sum + item.number, 0);
+        this.totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.number, 0); // Нийт үнэ тооцох
+        this.dialog = null; // Динамикаар үүсгэх диалог
+        this.backdrop = null; // Бүдэглэх давхарга
     }
+
     render() {
         this.innerHTML = `
             <aside class="cart-icon">
@@ -32,8 +31,16 @@ class MyCart extends HTMLElement {
 
     connectedCallback() {
         this.render();
+
+        // Худалдааны сагсны товч дээр дарсан үед
         const button = this.querySelector(".cartButton");
         button.addEventListener("click", () => this.showDialog());
+
+        // `main-product` component-оос custom event-ийг сонсох
+        window.addEventListener('productAddedToCart', (event) => {
+            const product = event.detail.product;
+            this.addProductToCart(product);
+        });
     }
 
     showDialog() {
@@ -55,20 +62,22 @@ class MyCart extends HTMLElement {
         this.dialog.innerHTML = `
             <h1>🛒  ${this.sagsniiToo} Бүтээгдэхүүн</h1>
             <cart-list></cart-list>
-            <cart-total></cart-total>
+            <div class="total-price">
+                <pre>   🛒 Нийт дүн: ${this.totalPrice}₮</pre>
+            </div>
             <div class="listbtn">
-                    <a href="cart.html" class="checkout">Захиалах
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                            stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-paw-print">
-                            <circle cx="11" cy="4" r="2" />
-                            <circle cx="18" cy="8" r="2" />
-                            <circle cx="20" cy="16" r="2" />
-                            <path
-                                d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                        </svg>
-                    </a>
-                </div>
+                <a href="cart.html" class="checkout">Захиалах
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-paw-print">
+                        <circle cx="11" cy="4" r="2" />
+                        <circle cx="18" cy="8" r="2" />
+                        <circle cx="20" cy="16" r="2" />
+                        <path
+                            d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+                    </svg>
+                </a>
+            </div>
         `;
         this.dialog.style.display = "block";
         this.backdrop.style.display = "block";
@@ -79,16 +88,17 @@ class MyCart extends HTMLElement {
         this.backdrop.style.display = "none";
     }
 
-    addProduct() {
+    addProductToCart(product) {
         // Сагсанд бүтээгдэхүүн нэмэх
         this.sagsniiToo++;
+        this.totalPrice += product.price * product.number; // Нийт үнийг шинэчлэх
         this.querySelector(".cart-count").innerText = this.sagsniiToo;
+
         if (this.dialog) {
             this.dialog.querySelector("h1").innerText = `🛒 ${this.sagsniiToo} Бүтээгдэхүүн`;
+            this.dialog.querySelector(".total-price pre").innerText = `   🛒 Нийт дүн: ${this.totalPrice}₮`;
         }
     }
-
-
 }
 
 customElements.define('my-cart', MyCart);
