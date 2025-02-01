@@ -3,7 +3,7 @@ import "./cart-total.js"
 class MainProduct extends HTMLElement {
     constructor() {
         super();
-        this._productId = null; // `_productId` property-г хадгалах хувийн хувьсагч
+        this._productId = null; 
     }
 
     // Аттрибутуудыг ажиглах
@@ -14,21 +14,19 @@ class MainProduct extends HTMLElement {
     // Аттрибут өөрчлөгдөх үед
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'product-id' && oldValue !== newValue) {
-            this.productId = newValue; // Аттрибут өөрчлөгдөхөд property-г өөрчлөх
+            this.productId = newValue; 
         }
     }
 
-    // Getter: property-г авахад ашиглагдана
     get productId() {
         return this._productId;
     }
 
-    // Setter: property-г өөрчлөхөд ашиглагдана
     set productId(value) {
         if (this._productId !== value) {
             this._productId = value;
             console.log(`Property 'productId' changed to ${value}`);
-            this.fetchProductData(value); // Property солигдоход өгөгдөл татах
+            this.fetchProductData(value); 
         }
     }
 
@@ -70,8 +68,8 @@ class MainProduct extends HTMLElement {
         this.piece = prod.piece;
         this.price = prod.price;
         this.number = 1;
-        this.render(); // Дэлгэц дээр харуулах
-        this.setupAddToCartButton(); // "Сагсанд нэмэх" товчийг тохируулах
+        this.render(); 
+        this.setupAddToCartButton(); 
     }
 
     render() {
@@ -152,7 +150,7 @@ class MainProduct extends HTMLElement {
 
     connectedCallback() {
         if (this.hasAttribute('product-id')) {
-            this.productId = this.getAttribute('product-id'); // Property-г ашиглан аттрибутыг тохируулах
+            this.productId = this.getAttribute('product-id'); 
         }
     }
 

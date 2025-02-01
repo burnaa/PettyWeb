@@ -23,9 +23,9 @@ class MyOrder extends HTMLElement {
                     transform: scale(1.05);
                 }
 
-                :host([data-state="sale"]) {
-                    background-color: var(--bg-sale, #f8c471);
-                    border-color: #f39c12;
+                :host([data-state="available"]) {
+                    background-color: var(--bg-sale, #ffffff);
+                    border-color:rgb(239, 65, 155);
                 }
 
                 :host([data-state="sold-out"]) {
