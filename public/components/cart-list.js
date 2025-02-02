@@ -1,7 +1,6 @@
 class CartList extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' }); // Shadow DOM үүсгэнэ
         this.cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     }
 
@@ -31,7 +30,8 @@ class CartList extends HTMLElement {
     }
 
     render() {
-        // Бүтээгдэхүүний жагсаалтыг шинэчлэх
+        this.innerHTML = ''; // Өмнөх контентыг цэвэрлэх
+
         const productList = document.createElement('aside');
         productList.classList.add('listcart');
 
@@ -39,34 +39,17 @@ class CartList extends HTMLElement {
             this.cartItems.forEach(item => {
                 const productDiv = document.createElement('div');
                 productDiv.innerHTML = `
-                    <p>Нэр: ${item.name}--${item.size}-- ${item.color}</p>
+                    <p>Нэр: ${item.name} - ${item.size} - ${item.color}</p>
                     <p>Үнэ: ${item.number} * ${item.price}₮ = ${item.number * item.price}₮</p>
                     <hr>
                 `;
                 productList.appendChild(productDiv);
             });
         } else {
-            const emptyMessage = document.createElement('p');
-            emptyMessage.textContent = 'Сагс хоосон байна.';
-            productList.appendChild(emptyMessage);
+            productList.innerHTML = `<p>Сагс хоосон байна.</p>`;
         }
 
-        this.shadowRoot.innerHTML = ''; // Shadow DOM-ийн өмнөх контентыг устгах
-        this.shadowRoot.appendChild(productList);
-
-        // Стилиудыг нэмэх
-        const style = document.createElement('style');
-        style.textContent = `
-            .listcart {
-                grid-area: content; /* Content талбар */
-                overflow-y: auto;
-                padding: 10px;
-            }
-            p {
-                margin: 2px 0;
-            }
-        `;
-        this.shadowRoot.appendChild(style);
+        this.appendChild(productList);
     }
 
     updateCart() {

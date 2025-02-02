@@ -1,5 +1,4 @@
-import "./my-cart.js"
-import "./cart-total.js"
+import "./my-cart.js" 
 class MainProduct extends HTMLElement {
     constructor() {
         super();
@@ -130,7 +129,6 @@ class MainProduct extends HTMLElement {
             // CustomEvent үүсгэж дамжуулах
             const event = new CustomEvent('productAddedToCart', {
                 detail: {product : productData},
-                bubbles: true
             });
             
             console.log("CustomEvent dispatched:", event);
