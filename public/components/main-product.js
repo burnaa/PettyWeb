@@ -135,14 +135,6 @@ class MainProduct extends HTMLElement {
             window.dispatchEvent(event);
 
             alert("Бүтээгдэхүүнийг сагсанд нэмлээ!");
-
-            if (document.getElementById("my-cart")) {
-                document.getElementById("my-cart").addProduct(this.id);
-            }
-            if (typeof app !== 'undefined' && app.cart) {
-                app.cart.addProduct(this.id);
-                app.refreshCart();
-            }
         });
     }
 

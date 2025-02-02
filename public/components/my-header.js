@@ -1,5 +1,7 @@
 import "../components/my-cart.js";
 import "../components/my-login.js";
+import "../components/main-product.js";
+
 class MyHeader extends HTMLElement {
     constructor() {
         super();
@@ -26,16 +28,17 @@ class MyHeader extends HTMLElement {
                 <li><a href="../htmls/turshilt.html">Үйлчилгээ</a></li>
             </ul>
         </nav>
+        <div id="dialog-container"></div> <!-- Диалог харуулах хэсэг -->
         `;
     }
 
     connectedCallback() {
         const searchInput = this.querySelector('#haih');
         const resultsList = this.querySelector('#search-results');
-
+        const dialogContainer = this.querySelector('#dialog-container');
         let selectedIndex = -1; // Keyboard-оор сонгогдсон index
 
-        searchInput.addEventListener('input', async (event) => {
+        searchInput.addEventListener('input', async () => {
             const query = searchInput.value.trim();
             if (query.length < 2) {
                 resultsList.innerHTML = '';
@@ -50,7 +53,7 @@ class MyHeader extends HTMLElement {
                 resultsList.innerHTML = products.length === 0
                     ? '<li class="no-result">Үр дүн олдсонгүй</li>'
                     : products.map((product, index) => `
-                        <li class="search-item" data-index="${index}" data-name="${product.prod_name}">
+                        <li class="search-item" data-index="${index}" data-id="${product.prod_id}" data-name="${product.prod_name}">
                             <img src="${product.subpic}" alt="${product.prod_name}" width="40">
                             <span>${product.prod_name} (${product.prod_code})</span>
                         </li>
@@ -67,13 +70,17 @@ class MyHeader extends HTMLElement {
         searchInput.addEventListener('keydown', (event) => {
             const items = resultsList.querySelectorAll('.search-item');
 
+            if (items.length === 0) return;
+
             if (event.key === 'ArrowDown') {
                 selectedIndex = (selectedIndex + 1) % items.length;
             } else if (event.key === 'ArrowUp') {
                 selectedIndex = (selectedIndex - 1 + items.length) % items.length;
             } else if (event.key === 'Enter' && selectedIndex >= 0) {
-                searchInput.value = items[selectedIndex].dataset.name;
+                const selectedItem = items[selectedIndex];
+                searchInput.value = selectedItem.dataset.name;
                 resultsList.innerHTML = ''; // Dropdown-г хаах
+                detailsDialog(selectedItem.dataset.id); // Диалогыг ажиллуулах
             }
 
             items.forEach((item, index) => {
@@ -87,6 +94,7 @@ class MyHeader extends HTMLElement {
             if (item) {
                 searchInput.value = item.dataset.name;
                 resultsList.innerHTML = ''; // Dropdown-г хаах
+                detailsDialog(item.dataset.id); // Диалогыг ажиллуулах
             }
         });
 
@@ -96,8 +104,36 @@ class MyHeader extends HTMLElement {
                 resultsList.innerHTML = '';
             }
         });
+
+        // **Диалог харуулах функц**
+        function detailsDialog(id) {
+            const dialogHtml = `
+                <div class="overlay">
+                    <div class="dialog">
+                        <button class="close-button">×</button>
+                        <main-product product-id="${id}"></main-product>
+                    </div>
+                </div>
+            `;
+
+            dialogContainer.innerHTML = dialogHtml;
+            dialogContainer.style.display = 'block';
+
+            // Хаах товч дээр event listener нэмэх
+            dialogContainer.querySelector('.close-button').addEventListener('click', () => {
+                dialogContainer.innerHTML = '';
+                dialogContainer.style.display = 'none';
+            });
+
+            // Гадна дарсан үед хаах
+            dialogContainer.querySelector('.overlay').addEventListener('click', (e) => {
+                if (e.target.classList.contains('overlay')) {
+                    dialogContainer.innerHTML = '';
+                    dialogContainer.style.display = 'none';
+                }
+            });
+        }
     }
 }
 
 customElements.define('my-header', MyHeader);
-
