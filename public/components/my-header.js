@@ -18,7 +18,7 @@ class MyHeader extends HTMLElement {
             </div>
             <aside>
                 <my-login></my-login>
-                <my-cart id="my-cart"></my-cart>
+                <my-cart></my-cart>
             </aside>
         </header>
         <nav>
@@ -36,7 +36,6 @@ class MyHeader extends HTMLElement {
         const searchInput = this.querySelector('#haih');
         const resultsList = this.querySelector('#search-results');
         const dialogContainer = this.querySelector('#dialog-container');
-        let selectedIndex = -1; // Keyboard-оор сонгогдсон index
 
         searchInput.addEventListener('input', async () => {
             const query = searchInput.value.trim();
@@ -59,33 +58,9 @@ class MyHeader extends HTMLElement {
                         </li>
                     `).join('');
 
-                selectedIndex = -1; // Keyboard selection reset
-
             } catch (err) {
                 console.error(err.message);
             }
-        });
-
-        // Keyboard-оор сонголт хийх
-        searchInput.addEventListener('keydown', (event) => {
-            const items = resultsList.querySelectorAll('.search-item');
-
-            if (items.length === 0) return;
-
-            if (event.key === 'ArrowDown') {
-                selectedIndex = (selectedIndex + 1) % items.length;
-            } else if (event.key === 'ArrowUp') {
-                selectedIndex = (selectedIndex - 1 + items.length) % items.length;
-            } else if (event.key === 'Enter' && selectedIndex >= 0) {
-                const selectedItem = items[selectedIndex];
-                searchInput.value = selectedItem.dataset.name;
-                resultsList.innerHTML = ''; // Dropdown-г хаах
-                detailsDialog(selectedItem.dataset.id); // Диалогыг ажиллуулах
-            }
-
-            items.forEach((item, index) => {
-                item.classList.toggle('selected', index === selectedIndex);
-            });
         });
 
         // Сонгосон хайлтын нэрийг input руу хийх
