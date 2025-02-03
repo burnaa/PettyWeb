@@ -115,24 +115,27 @@ class MyHeader extends HTMLElement {
                     </div>
                 </div>
             `;
-
+        
             dialogContainer.innerHTML = dialogHtml;
             dialogContainer.style.display = 'block';
-
-            // Хаах товч дээр event listener нэмэх
-            dialogContainer.querySelector('.close-button').addEventListener('click', () => {
+        
+            const closeDialog = () => {
                 dialogContainer.innerHTML = '';
                 dialogContainer.style.display = 'none';
-            });
-
+                searchInput.value = ''; // Хайлтын талбарыг хоослох
+            };
+        
+            // Хаах товч дээр event listener нэмэх
+            dialogContainer.querySelector('.close-button').addEventListener('click', closeDialog);
+        
             // Гадна дарсан үед хаах
             dialogContainer.querySelector('.overlay').addEventListener('click', (e) => {
                 if (e.target.classList.contains('overlay')) {
-                    dialogContainer.innerHTML = '';
-                    dialogContainer.style.display = 'none';
+                    closeDialog();
                 }
             });
         }
+        
     }
 }
 
