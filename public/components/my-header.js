@@ -77,6 +77,7 @@ class MyHeader extends HTMLElement {
         document.addEventListener('click', (event) => {
             if (!this.contains(event.target)) {
                 resultsList.innerHTML = '';
+                searchInput.value = '';
             }
         });
 

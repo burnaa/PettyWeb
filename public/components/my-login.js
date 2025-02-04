@@ -85,7 +85,8 @@ class MyLogin extends HTMLElement {
         // Backdrop дээр дарж хаах
         window.addEventListener("click", (event) => {
             if (event.target === this.backdrop) {
-                this.closeDialog();
+                if (this.backdrop) this.backdrop.style.display = "none";
+                if (this.dialog) this.dialog.style.display = "none";
             }
         });
 
@@ -102,12 +103,6 @@ class MyLogin extends HTMLElement {
         }
     }
     
-
-    closeDialog() {
-        // Backdrop болон диалогыг нуух
-        if (this.backdrop) this.backdrop.style.display = "none";
-        if (this.dialog) this.dialog.style.display = "none";
-    }
 }
 
 window.customElements.define("my-login", MyLogin);
