@@ -1,4 +1,4 @@
-//import { initImageUpload } from './ImageAdmin.js';
+//Бүтээгдэхүүний мэдээлэл post үйлдлээр нэмэх
 
 imageUpload.addEventListener("change", function (event) {
     const file = event.target.files[0];
