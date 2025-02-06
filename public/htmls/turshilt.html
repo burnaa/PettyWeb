@@ -8,96 +8,67 @@
     <link rel="stylesheet" href="../styles/prod.css">
     <link rel="stylesheet" href="../styles/cartDialog.css">
     <title>Нүүр</title>
-    <script>
-        function clearUrlParams() {
-            const url = new URL(window.location);
-            url.search = ''; // URL-ийн query параметрүүдийг цэвэрлэнэ
-            window.history.replaceState(null, '', url); // URL-ийг шинэчилнэ
-        }
-
         document.addEventListener('DOMContentLoaded', async () => {
             // URL heseg
 
             const navigationType = performance.getEntriesByType('navigation')[0]?.type || '';
 
             if (navigationType === 'reload') {
-                // Хэрэв хуудас refresh хийгдсэн бол clearUrlParams дуудна
-                clearUrlParams();
-            }
-
-            function syncInputsWithUrl() {
-                const urlParams = new URLSearchParams(window.location.search);
-
-                // Checkbox-уудыг шинэчлэх
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    const paramValues = urlParams.get(checkbox.name)?.split(',') || [];
-                    checkbox.checked = paramValues.includes(checkbox.value);
-                });
-
-                // Radio-уудыг шинэчлэх
-                const radios = document.querySelectorAll('input[type="radio"]');
-                radios.forEach(radio => {
-                    radio.checked = urlParams.get(radio.name) === radio.value;
-                });
-
-            }
-
-            function updateCheckboxUrl(checkbox) {
+                // Хэрэв хуудас refresh хийгдсэн бол url-ийг цэвэрлэнэ
                 const url = new URL(window.location);
-                const paramName = checkbox.name;
-                const checkboxes = document.querySelectorAll(`input[name="${paramName}"]:checked`);
-                const selectedValues = Array.from(checkboxes).map(cb => cb.value);
-                if (selectedValues.length > 0) {
-                    url.searchParams.set(paramName, selectedValues.join(','));
-                } else {
-                    url.searchParams.delete(paramName);
-                }
-                window.history.replaceState(null, '', url);
+                url.search = ''; // URL-ийн query параметрүүдийг цэвэрлэнэ
+                window.history.replaceState(null, '', url); // URL-ийг шинэчилнэ
             }
 
-            function updateRadioUrl(radio) {
+            //checkbox radio-г харуулах өөрчлөлтийг харуулах
+            function handleFilters() {
                 const url = new URL(window.location);
-                const paramName = radio.name;
+                const urlParams = new URLSearchParams(url.search);
 
-                if (radio.checked) {
-                    url.searchParams.set(paramName, radio.value);
-                } else {
-                    url.searchParams.delete(paramName);
-                }
-                window.history.replaceState(null, '', url);
-            }
+                // ✅ 1. URL-д байгаа filter-үүдийг input-д тохируулна
+                document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+                    const paramName = input.name;
+                    const paramValue = urlParams.get(paramName);
 
-            function updateUrlBasedOnSelection() {
-                const url = new URL(window.location);
-
-                // Update checkbox selections
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-                checkboxes.forEach(checkbox => {
-                    const paramName = checkbox.name;
-                    const selectedValues = Array.from(
-                        document.querySelectorAll(`input[name="${paramName}"]:checked`)
-                    ).map(cb => cb.value);
-                    if (selectedValues.length > 0) {
-                        url.searchParams.set(paramName, selectedValues.join(','));
-                    } else {
-                        url.searchParams.delete(paramName);
+                    if (input.type === 'checkbox') {
+                        const values = paramValue ? paramValue.split(',') : [];
+                        input.checked = values.includes(input.value);
                     }
-                });
 
-                // Update radio selections
-                const radios = document.querySelectorAll('input[type="radio"]:checked');
-                radios.forEach(radio => {
-                    const paramName = radio.name;
-                    if (radio.checked) {
-                        url.searchParams.set(paramName, radio.value);
-                    } else {
-                        url.searchParams.delete(paramName);
+                    if (input.type === 'radio') {
+                        input.checked = paramValue === input.value;
                     }
-                });
 
-                window.history.replaceState(null, '', url);
+                    // ✅ 2. Сонголт өөрчлөгдөхөд URL-ийг шинэчилнэ
+                    input.addEventListener('change', () => {
+                        const selectedInputs = document.querySelectorAll(`input[name="${paramName}"]:checked`);
+                        const selectedValues = Array.from(selectedInputs).map(el => el.value);
+
+                        if (input.type === 'checkbox') {
+                            if (selectedValues.length > 0) {
+                                urlParams.set(paramName, selectedValues.join(','));
+                            } else {
+                                urlParams.delete(paramName);
+                            }
+                        }
+
+                        if (input.type === 'radio') {
+                            if (input.checked) {
+                                urlParams.set(paramName, input.value);
+                            } else {
+                                urlParams.delete(paramName);
+                            }
+                        }
+
+                        // ✅ 3. URL-ийг шинэчилж хадгална
+                        window.history.replaceState(null, '', `${url.pathname}?${urlParams.toString()}`);
+                    });
+                });
             }
+
+            // ✅ DOM бүрэн ачааллагдсан үед ажиллуулна
+            document.addEventListener('DOMContentLoaded', handleFilters);
+
 
             // Adopt class
             class Adopt {
@@ -303,9 +274,10 @@
             // Эхний байдлаар өгөгдлийг татах
             await fetchAdoptions();
         });
-    </script>
+    </script> -->
     <script src="../components/my-header.js" type="module"></script>
     <script src="../components/my-footer.js" type="module"></script>
+    <script src="../js/filterAdopt.js" type="module"></script>
 </head>
 
 <body>
