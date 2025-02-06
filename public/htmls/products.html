@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Bla bla">
+    <link rel="preload" href="../styles/prod.css">
     <link rel="stylesheet" href="../styles/prod.css">
     <link rel="stylesheet" href="../styles/cartDialog.css">
     <script src="../components/my-footer.js" type="module"></script>
@@ -12,8 +13,8 @@
     <title>products</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Caveat:wght@400..700&display=swap"
-        rel="stylesheet">
+    <!-- <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Caveat:wght@400..700&display=swap"
+        rel="stylesheet"> -->
     <script src="../components/main-product.js" type="module"></script>
 
     <style>
@@ -200,7 +201,7 @@
                     d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
             </svg>
             <pre id="food">Хоол</pre>
-            <img src="../images/type1.png" alt="хоол">
+            <img src="../images/type1.png" alt="хоол" loading="lazy">
         </aside>
         <aside class="type" onclick="toggleSelection(this)">
             <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -213,7 +214,7 @@
                     d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
             </svg>
             <pre>Гоёл чимэглэл</pre>
-            <img src="../images/type2 (2).png" alt="гоёл">
+            <img src="../images/type2 (2).png" alt="гоёл" loading="lazy">
         </aside>
         <aside class="type" onclick="toggleSelection(this)">
             <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -226,7 +227,7 @@
                     d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
             </svg>
             <pre>Ариун цэвэр</pre>
-            <img src="../images/type3 (2).png" alt="ариун цэвэр">
+            <img src="../images/type3 (2).png" alt="ариун цэвэр" loading="lazy">
 
         </aside>
         <aside class="type" onclick="toggleSelection(this)">
@@ -240,7 +241,7 @@
                     d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
             </svg>
             <pre>Тоглоом</pre>
-            <img src="../images/type4.png" alt="тоглоом">
+            <img src="../images/type4.png" alt="тоглоом" loading="lazy">
 
         </aside>
         <aside class="type" onclick="toggleSelection(this)">
@@ -254,7 +255,7 @@
                     d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
             </svg>
             <pre>Унтах хэрэгсэл</pre>
-            <img src="../images/type5.png" alt="гоёл">
+            <img src="../images/type5.png" alt="гоёл" loading="lazy">
         </aside>
         <aside class="type" onclick="toggleSelection(this)">
             <svg class="paw1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -267,37 +268,37 @@
                     d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
             </svg>
             <pre>Тээвэрлэх сав</pre>
-            <img src="../images/type6.png" alt="гоёл">
+            <img src="../images/type6.png" alt="гоёл" loading="lazy">
 
         </aside>
 
         <aside class="type" onclick="toggleSelection(this)">
             <pre id="dog">Нохой</pre>
-            <img src="../images/dog team-Photoroom.png" alt="хоол">
+            <img src="../images/dog team-Photoroom.png" alt="хоол" loading="lazy">
         </aside>
 
         <aside class="type" onclick="toggleSelection(this)">
             <pre id="cat">Муур</pre>
-            <img src="../images/hhjj-Photoroom.png" alt="гоёл">
+            <img src="../images/hhjj-Photoroom.png" alt="гоёл" loading="lazy">
         </aside>
 
         <aside class="type" onclick="toggleSelection(this)">
             <pre id="rabbit">Туулай</pre>
-            <img src="../images/rra-Photoroom.png" alt="ариун цэвэр">
+            <img src="../images/rra-Photoroom.png" alt="ариун цэвэр" loading="lazy">
         </aside>
 
         <aside class="type" onclick="toggleSelection(this)">
             <pre id="fish">Загас</pre>
-            <img src="../images/fifi-Photoroom.png" alt="тоглоом">
+            <img src="../images/fifi-Photoroom.png" alt="тоглоом" loading="lazy">
         </aside>
 
         <aside class="type" onclick="toggleSelection(this)">
             <pre id="bird">Шувуу</pre>
-            <img src="../images/bibi-Photoroom.png" alt="гоёл">
+            <img src="../images/bibi-Photoroom.png" alt="гоёл" loading="lazy">
         </aside>
-        <aside class="type" onclick="toggleSelection(this)">
+        <aside class="type" onclick="toggleSelection(this)" loading="lazy">
             <pre id="other">Бусад</pre>
-            <img src="../images/oth-Photoroom.png" alt="гоёл">
+            <img src="../images/oth-Photoroom.png" alt="гоёл" loading="lazy">
 
         </aside>
         <hr>

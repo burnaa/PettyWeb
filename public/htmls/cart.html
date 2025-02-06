@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="сагсанд хийсэн бараа">
     <title>Bag Products</title>
     <link rel="stylesheet" href="../styles/prod.css">
     <link rel="stylesheet" href="../styles/cartDialog.css">
@@ -14,10 +15,10 @@
 
 <body>
     <my-header></my-header>
-    <main class="zai">
+    <main class="zai" style="height: 620">
         <aside id="egnee">
             <h2>Сагс</h2>
-            <button id="pay-button" class="clear-button"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+            <button class="clear-button"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                     viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" class="lucide lucide-trash-2">
                     <path d="M3 6h18" />
@@ -55,7 +56,7 @@
                 // Slot-д дамжуулах утгуудыг тохируулах
                 orderComponent.innerHTML = `
                     <span slot="name">${item.name}</span>
-                    <span slot="quantity">${item.number} ширхэг</span>
+                    <p slot="quantity">${item.number} ширхэг</p>
                     <span slot="color">${item.color}</span>
                     <span slot="size">${item.size}</span>
                     <span slot="price">Төлбөр: ${(item.price * item.number).toLocaleString()}₮</span>

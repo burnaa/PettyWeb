@@ -1,7 +1,7 @@
 
 /* ******Нийт**********/
 :root {
-    --color-petty: #f4202e;
+    --color-petty: rgb(214, 95, 115);
     --color-pink:rgb(39, 37, 37);
     --color-grey:#aaaaaa;
     --color-black:#333333;
@@ -77,7 +77,7 @@
 
 
 .cartDialog .listbtn .checkout {
-    background: linear-gradient(90deg, #f66c49, #f8b785);
+    background:linear-gradient(90deg, #ed587e, #e698aa);;
     padding:0.5rem;
     text-align: center;
     color: black;
@@ -87,7 +87,7 @@
 
   
   .cartDialog .listbtn .checkout:hover {
-    background: linear-gradient(90deg, #f8b785, #f66c49); /* Хулганы даралттай үед эсрэг чиглэлд */
+    background: linear-gradient(90deg,  #e698aa, #ed587e);;
   }
 
 
@@ -168,8 +168,12 @@ svg {
 }
 
 .modal-body button{
-    background: linear-gradient(90deg, #f66c49, #f8b785);
+    background: linear-gradient(90deg, #ed587e, #e698aa);
 }
+
+.modal-body button:hover {
+    background: linear-gradient(90deg,  #e698aa, #ed587e);
+  }
 
 .modal-body button a{
     color: black;

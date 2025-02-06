@@ -12,7 +12,8 @@ class MyOrder extends HTMLElement {
                     border-radius: 10px;
                     margin: 10px;
                     padding: 20px;
-                    width: 15%;
+                    width: 180px;
+                    height:370px;
                     box-shadow: var(--shadow-2, 0 4px 8px rgba(0, 0, 0, 0.1));
                     background-color: var(--bg-color, white);
                     text-align: center;
@@ -38,6 +39,7 @@ class MyOrder extends HTMLElement {
                     max-width: 100%;
                     height: 10rem;
                     border-radius: 10px;
+                    object-fit: contain;
                 }
 
                 .product-name {
@@ -66,7 +68,7 @@ class MyOrder extends HTMLElement {
                 .stock-status {
                     font-size: 14px;
                     font-weight: bold;
-                    color: red;
+                    color: rgb(214, 95, 115);
                 }
 
                 .buy-button {
@@ -92,7 +94,7 @@ class MyOrder extends HTMLElement {
                 </aside>
                 <pre><slot name="color">Улаан</slot>  <slot name="size">XS</slot></pre>
                 <a href="oneProduct.html">
-                    <img src="" alt="Product Image">
+                    <img src="" loading="lazy" width="400" height="300" alt="Example" />
                 </a>
                 <p class="quantity"><slot name="quantity">0 ширхэг</slot></p>
                 <p class="price"><slot name="price">$0.00</slot></p>

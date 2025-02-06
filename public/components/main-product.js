@@ -77,12 +77,11 @@ class MainProduct extends HTMLElement {
                 <div id="mainpicture">
                     <img class="big" src="${this.subpic}" alt="Main Product Image">
                 </div>
-                <article>
+                <article class="huurhn">
                     <h2 id="title">${this.name}</h2>
-                    <pre>${this.type}</pre>
-                    <pre>Хэмжээ: ${this.size} </pre>
+                    <p>${this.type}</p>
+                    <p>Хэмжээ: ${this.size} </p>
                     <aside class="songolt">
-                        <pre>Өнгө</pre>
                         <form>
                             ${this.color.map((color, index) => `
                                 <input type="radio" name="choice_color" id="color${index + 1}" ${index === 0 ? 'checked' : ''}>
@@ -90,12 +89,13 @@ class MainProduct extends HTMLElement {
                             `).join('')}
                         </form>
                     </aside>
+                    <br>
                     <p id="uildverlesen">Үйлдвэрлэгдсэн огноо: ${this.startDate}</p>
                     <p id="expire">Дуусах огноо: ${this.endDate}</p>
                     <p id="origin">Бүтээгдэхүүний гарал: ${this.origin}</p>
                     <p id="standart">Баталгаажуулалт: ${this.certification}</p>
-                    <span id="currency">${this.price}₮</span>
                     <br>
+                    <span id="currency">${this.price}₮</span>
                     <button id="cart-button">🛒Сагсанд нэмэх🛒</button>
                 </article>
             </div>`;

@@ -18,6 +18,7 @@ body {
 /* html, body{
     font-size: 16px;
     font-family: 'Buyan Light'; 
+
     background-color: var(--color-body);
 } */
 main {
@@ -43,7 +44,7 @@ a{
 
 /* ******Нийт**********/
 :root {
-  --color-petty: #f4202e;
+  --color-petty: rgb(237, 99, 122);
   --color-grey:#aaaaaa;
   --color-black:#333333;
   --color-white: #fbf8f1;
@@ -108,6 +109,9 @@ a{
 
 header #logo {
     cursor: pointer;
+    width: 3.3rem;
+    height: 3.3rem;
+    object-fit: contain; /* Зургийн хэмжээг хадгалж багтаана */
 }
 
 /* header input[type="search"] {
@@ -235,7 +239,7 @@ nav ul li a:hover {
   footer{
     background-color: var(--color-petty);
     display:flex;
-    height: 12rem;
+    height: 15rem;
     justify-content:flex-start;
     align-items: center;
     padding: 3px 8.5rem 0px 8.5rem;
@@ -250,7 +254,8 @@ nav ul li a:hover {
   }
   footer a{
     display: block;
-    padding: 0.3rem 0.9rem;
+    margin:1rem;
+    padding: 0rem 0.6rem;
     color:white;
   }
   footer aside{
@@ -379,6 +384,12 @@ hr{
 }
 
 /*******************index**************************/
+.lists{
+  height: 23rem;
+  width: 90rem ;
+  margin:1rem 6.5rem;
+
+}
 
 .lists h2{
   text-align: center;
@@ -502,7 +513,20 @@ height: 10rem;
 .product11 h3, .product11 a {
   margin-bottom: 0.5rem;
 }
-/********************OneProduct**************************/
+/********************OneProduct Dialog**************************/
+
+#cart-button{
+  background: linear-gradient(90deg, #ed587e, #e698aa); /* Зүүнээс баруун руу градиент */
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#cart-button:hover{
+  background: linear-gradient(90deg,  #e698aa, #ed587e);
+}
 .jagsaah {
     list-style-type: none;
     padding: 0rem;
@@ -537,6 +561,20 @@ height: 10rem;
     padding-right: 8.5rem;
 }
 
+.huurhn {
+  padding: 0.5rem;
+  display: block; /* эсвэл display: inline-block; */
+  text-align: left; /* Текстыг зүүн талд байрлуулна */
+}
+
+.huurhn p{
+  margin-top: 10px;
+}
+
+.huurhn span{
+  font-size: 1.5rem;
+  margin-right: 4rem;
+}
 .some{
     display: flex;
     align-items: center;
@@ -619,29 +657,6 @@ input[type="submit"]{
   object-fit: cover; /* Зургийг контейнерт багтаах */
 }
 
-.small-images {
-  display:inline ;
-  gap: 1rem;
-}
-/* Жижиг зургийн контейнер */
-.small-image-container {
-  position: relative; /* Устгах товчийг контейнертэй холбох */
-  height: 9.375rem;
-  width: 7.5rem;
-  border-radius: var(--border-radius);
-  border: var(--input-border);
-  box-shadow: var(--shadow-1);
-  margin-bottom: 0.5rem;
-}
-
-/* Жижиг зургийн өөрийн хэв маяг */
-.small-image-container img {
-  height: 100%; /* Контейнерийн хэмжээнд багтаах */
-  width: 100%;
-  border-radius: var(--border-radius);
-  border: var(--input-border);
-  box-shadow: var(--shadow-1);
-}
 
 /* Устгах товч */
 .remove-btn {
@@ -670,7 +685,7 @@ input, select{
   border: var(--input-border)
 }
 #ilgeeh{
-  background: linear-gradient(90deg, #f66c49, #f8b785); /* Зүүнээс баруун руу градиент */
+  background: linear-gradient(90deg, #ed587e, #e698aa); /* Зүүнээс баруун руу градиент */
   border: none;
   padding: 10px 20px;
   border-radius: var(--border-radius);
@@ -679,7 +694,7 @@ input, select{
 }
 
 #ilgeeh:hover {
-  background: linear-gradient(90deg, #f8b785, #f66c49); /* Хулганы даралттай үед эсрэг чиглэлд */
+  background: linear-gradient(90deg,  #e698aa, #ed587e);
 }
 
 
@@ -687,6 +702,9 @@ input, select{
 /****************Adoptions********************************************/
 .seee {
   display: flex;
+  padding-left: 3.5rem;
+  padding-right: 3.5rem;
+  min-height: 50rem; 
 }
 fieldset{
   border-radius: var(--default-border-radius);
@@ -694,7 +712,7 @@ fieldset{
   padding: 0.2rem;
 }
 .filter {
-  width:16%;
+  width:18%;
   background-color: #ddd;
   padding: 0.3rem 0.6rem;
   margin: 2px 2.2rem 0.3rem 5.5rem;
@@ -724,18 +742,20 @@ fieldset{
 } */
 
 .filter h2 {
-  margin: 0.625rem 0rem;
+  margin: 0.7rem 0rem;
   font-size: clamp(1.5rem, 2vw, 2.5rem);
   text-align: center;
 }
 .result {
+  width:100%;
   display: flex;
   gap:1rem;
   overflow-x:auto;
-  padding:1rem;
   flex-wrap: wrap;
   justify-content: flex-start;
 } 
+
+
 
 #zarContainer {
   display: flex;
@@ -745,26 +765,68 @@ fieldset{
   flex-wrap: wrap;
   justify-content: flex-start;
 } 
-
+/* 
 .zar{
-  width: 14rem;
-  height: 18rem;
+  width: 12rem;
+  height: 20rem;
   overflow: hidden;
   box-shadow: var(--shadow-1);
   border-radius: var(--border-radius);
   margin:0.6rem;
   box-sizing: border-box;
-} 
+}  */
 
-.zar img{
-    display:block;
-    margin: 0.5rem auto;
-    max-width: auto;
-    height: 8rem;
-    border-radius: var(--border-radius);
+.zar{
+  display: inline-block;
+  width: 14rem;
+  height: 20rem;
+  text-align: center;
+  /* border: 1px solid #f4202e; */
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-1);
+  padding: 0rem 1rem;
+  margin: 0.6rem;
+  transition: transform 0.2s ease-in-out;
 }
 
-.zar h4{
+.result img{
+    display:block;
+    margin: 0.5rem auto;
+    height: 10rem;
+    border-radius: var(--border-radius);
+    width: 100%;
+    object-fit: contain;
+    
+}
+
+.adoptAll {
+  width:100%;
+  display: flex;
+  gap:1rem;
+  overflow-x:auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+} 
+
+.adoptAll img{
+  display:block;
+  margin: 0.5rem auto;
+  height: 10rem;
+  border-radius: var(--border-radius);
+  width: 100%;
+  object-fit: contain;
+}
+.zar img{
+  display:block;
+  margin: 0.5rem auto;
+  height: 10rem;
+  border-radius: var(--border-radius);
+  width: 100%;
+  object-fit: contain;
+  
+}
+
+.zar h3{
   margin: 0rem;
   padding:0rem;
 }
@@ -784,38 +846,10 @@ fieldset{
   color:var(--color-white);
 }
 
-/* Pagination styles inside information*/
-
-.pagination {
-  display: flex;
-  list-style: none;
-  padding: 0rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.pagination li {
-  margin: 0rem 0.3rem;
-}
-
-.pagination a {
-  display: block;
-  padding: 0.5rem 0.75rem;
-  text-decoration: none;
-  color: #333;
-  border-radius: 0.25rem;
-}
-.pagination a:hover {
-  background-color: #eee;
-}
-.pagination #active a {
-  background-color: #f4202e;
-  color: white;
-  border-color: #f4202e;
-}
-.pagination #disabled a {
-  color: #ccc;
-  pointer-events: none;
+input[type="checkbox"], input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin:5px;
 }
 
 /**************User**************/
@@ -852,9 +886,8 @@ fieldset{
 /*************Cart *************/
 .zai {
   font-family: var(--font);
-  max-width: 90.7rem;
+  width: 90.7rem;
   margin: auto;
-  padding:1rem 2rem;
   border-radius: var(--default-border-radius);
   box-shadow: var(--shadow-2);
 }
@@ -892,9 +925,11 @@ fieldset{
   justify-content: space-around;
   padding: 1rem;
 }
-#pay-button{
-  background: linear-gradient(90deg, #f66c49, #f8b785); /* Зүүнээс баруун руу градиент */
+#pay-button, .clear-button{
+  background: linear-gradient(90deg, #ed587e, #e698aa);
   border: none;
+  height: 40px;
+  width: 200px;
   padding: 10px 20px;
   border-radius: var(--border-radius);
   font-size: 1rem;
@@ -902,151 +937,8 @@ fieldset{
 }
 
 #pay-button:hover {
-  background: linear-gradient(90deg, #f8b785, #f66c49); /* Хулганы даралттай үед эсрэг чиглэлд */
+  background: linear-gradient(90deg,  #e698aa, #ed587e);
 }
-
-/*
-#egnee button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-#egnee button:hover {
-  background-color: #e43f3f;
-} */
-
-/* Shopping cart */
-
-/* .bag-products {
-  justify-content: space-evenly;
-}
-.bag-products>section {
-  border : 0.125rem solid black;
-  border-radius: 2%;
-}
-.bag-products>section>img {
-  height: 10rem;
-  width: 10rem;
-}
-#product-price {
-  color: #F36161; 
-  text-decoration-line: line-through;
-}
-#product-name {
-  color: #000000; 
-  font-weight: 600; 
-}
-#product-type {
-  color: #000000;
-  font-weight: 500; 
-}
-#close {
-  position: absolute; 
-  top: 5%; 
-  right: 5%; 
-  background: transparent; 
-  border: none; 
-  cursor: pointer; 
-  padding: 0; 
-  z-index: 1000; 
-} 
-#pay-button{
-  background-color: #FFC8C8;
-  border-radius: 0.5rem;
-  font-family: 'Buyan Light';
-}*/
-/* Information */
-
-#content-wrapper{
-  margin: 1.25rem auto;
-  padding:0.18rem 8.5rem;
-}
-#content-wrapper h1{
-  margin:0rem;
-}
-#container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  gap: 1rem;
-}
-
-#article-card {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  max-width: 50rem; 
-  width: 100%;
-  border-radius: 0.5rem;
-}
-
-.article-date {
-  font-size: 0.875rem; 
-  color: #555;
-  min-width: 6.25rem; 
-  padding-right: 5rem;
-}
-
-.article-content {
-  flex: 1;
-}
-
-.article-title {
-  font-size: 1.125rem; 
-  font-weight: bold;
-  margin: 0;
-  color: #000;
-  cursor: pointer; 
-}
-
-.article-description {
-  margin: 0.5rem 0 0 0;
-  font-size: 0.875rem;
-  color: #555;
-}
-
-.article-author {
-  font-size: 0.875rem;
-  color: #777;
-  margin-top: 0.5rem;
-  display: inline-block;
-}
-
-.article-image {
-  margin-left: auto;
-  cursor: pointer; 
-}
-
-.article-image img {
-  width: 12.5rem; 
-  height: auto;
-  border-radius: 0.5rem;
-  object-fit: cover;
-}
-
-.information img{
-  display: flex;
-  justify-self: center;
-  width:50% ;
-  height: 40%;
-}
-#left, #right {
-  display: inline-block; 
-  vertical-align: top; 
-  width: 45%; 
-  box-sizing: border-box; 
-}
-
-
 
 
 /* test */
