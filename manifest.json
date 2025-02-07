@@ -1,9 +1,0 @@
-{
-    "name": "Petty shop",
-    "short_name": "Petty",
-    "start_url": "/htmls/index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#4CAF50"
-}
-  
