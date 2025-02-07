@@ -361,6 +361,7 @@ app.post("/products", async (req, res) => {
 });
 
 app.get('/products', async (req, res) => {
+
     try {
         const query = 'SELECT * FROM products';
         const result = await pool.query(query);
@@ -517,12 +518,6 @@ app.get("/adoptions", async (req, res) => {
         console.error("Error fetching adoptions:", err.message);
         res.status(500).json({ error: "Failed to fetch adoptions" });
     }
-});
-
-
-// Redirect to index.html
-app.get('*', (req, res) => {
-    res.redirect('/htmls/index.html');
 });
 
 // Сервер эхлүүлэх

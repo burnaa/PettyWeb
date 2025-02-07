@@ -49,7 +49,7 @@ a{
   --color-black:#333333;
   --color-white: #fbf8f1;
   --color-dark: #dcd7cc;
-  --shadow-1: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+  --shadow-1: 0 2px 6px rgba(0,0,0,0.1);
   --shadow-2: 0 4px 8px rgba(0, 0, 0, 0.1);
   --product-border: 2px solid var(--color-petty);
   --input-border:1px solid var(--color-black);
@@ -229,7 +229,6 @@ nav ul li a {
     color:black;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 nav ul li a:hover {
@@ -310,15 +309,6 @@ hr{
 }
 
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg); /* Эхлэл */
-  }
-  to {
-    transform: rotate(360deg); /* 360 градус эргэх */
-  }
-}
-
 .type {
     display: inline-block;
     width: 15%;
@@ -334,18 +324,44 @@ hr{
 .type img {
   height: 6rem;
   width: 8rem;
-  transition: opacity 0.3s ease;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* @keyframes golloh{
+  from{
+    transform: translateX(-300px);
+  }
+  to{
+    transform: translateX(0);
+  }
+}
+#animation{
+  animation-name: golloh;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+} */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); /* Эхлэл */
+  }
+  to {
+    transform: rotate(360deg); /* 360 градус эргэх */
+  }
 }
 
 .type:hover .paw1 {
-  animation: spin 2s cubic-bezier(0.42, 0, 0.58, 1) infinite; /* Удаашруулж эргүүлэх */
-  transform-origin: center; /* Эргэлтийн төвийг SVG-ийн голд байрлуулах */
+  animation: spin 2s ease-in-out infinite; /* Удаашруулж эргүүлэх */
 }
 
 .type:hover img {
   transform: scale(1.05); /* Томруулах */
   opacity: 0.3; /* Зураг бүдэгрэх */
-  transition: transform 0.3s, opacity 0.3s ease; /* Зөөлөн хөдөлгөөн */
+  transition: transform 0.2s ease-in-out;
 }
 
 .type a {
@@ -411,7 +427,7 @@ hr{
 
 .pages {
   position: absolute;
-  bottom: 10px; /* Зургийн доороос 10px зайд байрлана */
+  bottom: 10px; /* Зургийн доороос 10px зайд байрлана *
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -427,7 +443,6 @@ hr{
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .dot.active {
@@ -512,7 +527,7 @@ height: 10rem;
 /********************OneProduct Dialog**************************/
 
 #cart-button{
-  background: linear-gradient(90deg, #ed587e, #e698aa); /* Зүүнээс баруун руу градиент */
+  background: linear-gradient(90deg, #ed587e, #e698aa); 
   border: none;
   padding: 10px 20px;
   border-radius: var(--border-radius);
@@ -577,23 +592,7 @@ height: 10rem;
     justify-content: center;
     padding: 0rem 2rem;
 }
-@keyframes golloh{
-  from{
-    transform: translateX(-300px);
-  }
-  to{
-    transform: translateX(0);
-  }
-}
-#animation{
-  animation-name: golloh;
-  animation-duration: 1s;
-  animation-timing-function: ease-in;
-  animation-delay: 0s;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-fill-mode: none;
-}
+
 
 
 /* .some {
@@ -714,7 +713,7 @@ fieldset{
   margin: 2px 2.2rem 0.3rem 5.5rem;
   display: inline-block;
   border-radius: var(--border-radius);
-  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-1);
 }
 
 .filter label {
